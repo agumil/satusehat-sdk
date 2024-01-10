@@ -1,0 +1,28 @@
+{
+  "name": "agumil/satusehat-sdk",
+  "description": "Unofficial API wrapper package to integrate with SATUSEHAT platform.",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "agumil\\SatuSehatSDK\\": "src/"
+    },
+    "files": [
+      "src/_ssfunctions.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Agung Gumilang",
+      "email": "agung96gumilang@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=7.4.0",
+    "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5",
+    "guzzlehttp/psr7": "^1.9.1 || ^2.4.5",
+    "guzzlehttp/promises": "^1.4.0 || ^2.0"
+  }
+}
