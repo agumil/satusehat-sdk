@@ -6,7 +6,7 @@ use agumil\SatuSehatSDK\DataType\AddressExtended;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
 use agumil\SatuSehatSDK\DataType\ContactPointMulti;
-use agumil\SatuSehatSDK\DataType\ExtensionExtended;
+use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
@@ -77,7 +77,7 @@ class PayloadBuilderOrganization
         return $this;
     }
 
-    public function addAddress(Address $address, ExtensionExtended...$extensions)
+    public function addAddress(Address $address, ExtensionAdministrativeCode ...$extensions)
     {
         $dataAddress = $address->toArray();
 
@@ -97,7 +97,7 @@ class PayloadBuilderOrganization
         return $this;
     }
 
-    public function addContact(CodeableConcept $purpose, HumanName $name, ?ContactPointMulti $telecom = null, AddressExtended...$addressExtendeds)
+    public function addContact(CodeableConcept $purpose, HumanName $name, ?ContactPointMulti $telecom = null, AddressExtended ...$addressExtendeds)
     {
         $data = [
             'purpose' => $purpose->toArray(),

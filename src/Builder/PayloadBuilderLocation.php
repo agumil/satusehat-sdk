@@ -5,7 +5,7 @@ use agumil\SatuSehatSDK\DataType\Address;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
-use agumil\SatuSehatSDK\DataType\ExtensionExtended;
+use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
 
@@ -108,7 +108,7 @@ class PayloadBuilderLocation
         return $this;
     }
 
-    public function addAddress(Address $address, ExtensionExtended ...$extensions)
+    public function addAddress(Address $address, ExtensionAdministrativeCode ...$extensions)
     {
         $dataAddress = $address->toArray();
 

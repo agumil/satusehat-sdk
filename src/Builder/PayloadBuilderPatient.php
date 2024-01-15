@@ -6,7 +6,7 @@ use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\CodeableConceptMulti;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
 use agumil\SatuSehatSDK\DataType\ContactPointMulti;
-use agumil\SatuSehatSDK\DataType\ExtensionExtended;
+use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
@@ -99,7 +99,7 @@ class PayloadBuilderPatient
 
     public function addName(HumanName $name)
     {
-        $this->name[] = $name;
+        $this->name[] = $name->toArray();
 
         return $this;
     }
@@ -111,7 +111,7 @@ class PayloadBuilderPatient
         return $this;
     }
 
-    public function addAddress(Address $address, ExtensionExtended ...$extensions)
+    public function addAddress(Address $address, ExtensionAdministrativeCode ...$extensions)
     {
         $dataAddress = $address->toArray();
 
@@ -192,7 +192,7 @@ class PayloadBuilderPatient
 
     public function build(): array
     {
-        $data['resourceType'] = $this->resource_type;
+        $data['resourceType'] = self::$resource_type;
 
         if (!empty($this->identifier)) {
             $data['identifier'] = $this->identifier;
