@@ -6,14 +6,12 @@ use agumil\SatuSehatSDK\SSClient;
 // init client
 $ssclient = new SSClient($oauth2, ['base_url' => Endpoint::DEV_FHIR]);
 
-// search by nik
-$params['identifier'] = 'https://fhir.kemkes.go.id/id/nik|7209061211900001';
-$response = $ssclient->getPractitioner($params);
-
+// get by subject
+$params['subject'] = 'P02478375538';
+$response = $ssclient->getEncounter($params);
 var_dump($response->getContentAsObject());
 
-// search by id
-$id = 10009880728;
-$response = $ssclient->getPractitionerById($id);
-
+// get by id
+$id = 'fa715450-b1ae-4228-9916-546de687f700';
+$response = $ssclient->getEncounterById($id);
 var_dump($response->getContentAsObject());
