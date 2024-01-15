@@ -7,7 +7,7 @@ class AddressExtended
 
     private array $address_extensions;
 
-    public function __construct(Address $address, ExtensionExtended ...$addressExtensions)
+    public function __construct(Address $address, ExtensionAdministrativeCode ...$addressExtensions)
     {
         $this->address = $address;
         $this->address_extensions = $addressExtensions;

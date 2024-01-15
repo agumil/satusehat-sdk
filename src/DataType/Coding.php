@@ -30,11 +30,11 @@ class Coding
             'display' => $this->display,
         ];
 
-        if (!empty($this->userSelected)) {
+        if (isset($this->userSelected)) {
             $data['userSelected'] = $this->userSelected;
         }
 
-        if (!empty($this->version)) {
+        if (isset($this->version)) {
             $data['version'] = $this->version;
         }
 
