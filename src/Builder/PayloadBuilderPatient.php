@@ -3,13 +3,13 @@ namespace agumil\SatuSehatSDK\Builder;
 
 use agumil\SatuSehatSDK\DataType\Address;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
-use agumil\SatuSehatSDK\DataType\CodeableConceptMulti;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
 use agumil\SatuSehatSDK\DataType\ContactPointMulti;
 use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
+use agumil\SatuSehatSDK\Exception\SSDataTypeException;
 use DateTime;
 
 class PayloadBuilderPatient
@@ -68,7 +68,7 @@ class PayloadBuilderPatient
     {
         $epoch = strtotime($date);
         if (!$epoch) {
-            return $this;
+            throw new SSDataTypeException('Parameter date is unparseable by strtotime. Please provide a valid date.');
         }
 
         $this->birth_date = (new DateTime())->setTimestamp($epoch)->format('Y-m-d');
@@ -145,23 +145,34 @@ class PayloadBuilderPatient
         return $this;
     }
 
-    public function addContact(HumanName $name, ContactPointMulti $telecom, CodeableConceptMulti $relationship)
+    public function addContact(?HumanName $name = null, ?ContactPointMulti $telecom = null, CodeableConcept ...$relationships)
     {
-        $this->contact[] = [
-            'relationship' => $relationship->toArray(),
-            'name' => $name->toArray(),
-            'telecom' => $telecom->toArray(),
-        ];
+        if (isset($name)) {
+            $data['name'] = $name->toArray();
+        }
+
+        if (isset($telecom)) {
+            $data['telecom'] = $telecom->toArray();
+        }
+
+        foreach ($relationships as $relationship) {
+            $data['relationship'][] = $relationship->toArray();
+        }
+        
+        $this->contact[] = $data;
 
         return $this;
     }
 
-    public function addCommunication(CodeableConcept $language, bool $preferred)
+    public function addCommunication(CodeableConcept $language, ?bool $isPreferred = null)
     {
-        $this->communication[] = [
-            'language' => $language->toArray(),
-            'preferred' => $preferred,
-        ];
+        $data['language'] = $language;
+
+        if (isset($isPreferred)) {
+            $data['preferred'] = $isPreferred;
+        }
+
+        $this->communication[] = $data;
 
         return $this;
     }

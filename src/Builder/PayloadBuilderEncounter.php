@@ -93,7 +93,7 @@ class PayloadBuilderEncounter
         return $this;
     }
 
-    public function addClassHistory(string $status, Period $period)
+    public function addClassHistory(string $status, ?Period $period = null)
     {
         $data['status'] = $status;
 

@@ -97,12 +97,15 @@ class PayloadBuilderOrganization
         return $this;
     }
 
-    public function addContact(CodeableConcept $purpose, HumanName $name, ?ContactPointMulti $telecom = null, AddressExtended ...$addressExtendeds)
+    public function addContact(?CodeableConcept $purpose = null, ?HumanName $name = null, ?ContactPointMulti $telecom = null, AddressExtended ...$addressExtendeds)
     {
-        $data = [
-            'purpose' => $purpose->toArray(),
-            'name' => $name->toArray(),
-        ];
+        if (isset($purpose)) {
+            $data['purpose'] = $purpose->toArray();
+        }
+
+        if (isset($name)) {
+            $data['name'] = $name->toArray();
+        }
 
         if (isset($telecom)) {
             $data['telecom'] = $telecom->toArray();
