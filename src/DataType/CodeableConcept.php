@@ -3,21 +3,23 @@ namespace agumil\SatuSehatSDK\DataType;
 
 class CodeableConcept
 {
-    private CodingMulti $coding_multi;
+    private array $codings;
 
     private ?string $text;
 
-    public function __construct(CodingMulti $codingMulti, ?string $text = null)
+    public function __construct(?string $text = null, Coding ...$codings)
     {
-        $this->coding_multi = $codingMulti;
+        $this->codings = $codings;
         $this->text = $text;
     }
 
     public function toArray(): array
     {
-        $data['coding'] = $this->coding_multi->toArray();
+        foreach ($this->codings as $coding) {
+            $data['coding'][] = $coding->toArray();
+        }
 
-        if (!empty($this->text)) {
+        if (isset($this->text)) {
             $data['text'] = $this->text;
         }
 

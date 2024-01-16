@@ -1,20 +1,26 @@
 <?php
 namespace agumil\SatuSehatSDK\DataType;
 
+use agumil\SatuSehatSDK\Exception\SSDataTypeException;
+
 class Coding
 {
-    private string $system;
+    private ?string $system;
 
-    private string $code;
+    private ?string $code;
 
-    private string $display;
+    private ?string $display;
 
     private ?bool $userSelected;
 
     private ?string $version;
 
-    public function __construct(string $system, string $code, string $display, ?bool $userSelected = null, ?string $version = null)
+    public function __construct(?string $system = null, ?string $code = null, ?string $display = null, ?bool $userSelected = null, ?string $version = null)
     {
+        if (empty($code) && !empty($display)) {
+            throw new SSDataTypeException('Parameter code must be provice when parameter display is exist.');
+        }
+
         $this->system = $system;
         $this->code = $code;
         $this->display = $display;
@@ -24,11 +30,17 @@ class Coding
 
     public function toArray(): array
     {
-        $data = [
-            'system' => $this->system,
-            'code' => $this->code,
-            'display' => $this->display,
-        ];
+        if (isset($this->system)) {
+            $data['system'] = $this->system;
+        }
+
+        if (isset($this->code)) {
+            $data['code'] = $this->code;
+        }
+
+        if (isset($this->display)) {
+            $data['display'] = $this->display;
+        }
 
         if (isset($this->userSelected)) {
             $data['userSelected'] = $this->userSelected;

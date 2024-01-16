@@ -3,7 +3,7 @@ namespace agumil\SatuSehatSDK\DataType;
 
 class Duration extends Quantity
 {
-    public function __construct(float | int $value, string $code, ?string $system = null, ?string $unit = null)
+    public function __construct(?string $system = null, ?string $code = null, $value = null, ?string $unit = null)
     {
         $this->value = $value;
         $this->code = $code;
@@ -13,21 +13,20 @@ class Duration extends Quantity
 
     public function toArray(): array
     {
-        $data = [
-            'value' => $this->value,
-            'code' => $this->code,
-        ];
-
-        if (!empty($this->system)) {
+        if (isset($this->system)) {
             $data['system'] = $this->system;
         }
 
-        if (!empty($this->unit)) {
-            $data['unit'] = $this->unit;
+        if (isset($this->code)) {
+            $data['code'] = $this->code;
         }
 
-        if (!empty($this->comparator)) {
-            $data['comparator'] = $this->comparator;
+        if (isset($this->value)) {
+            $data['value'] = $this->value;
+        }
+
+        if (isset($this->unit)) {
+            $data['unit'] = $this->unit;
         }
 
         return $data;

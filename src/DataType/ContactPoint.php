@@ -7,13 +7,13 @@ class ContactPoint
 
     private string $system;
 
-    private string $value;
+    private ?string $value;
 
     private ?int $rank;
 
     private ?Period $period;
 
-    public function __construct(string $use, string $system, string $value, ?int $rank = null, ?Period $period = null)
+    public function __construct(string $system, string $use, ?string $value = null, ?int $rank = null, ?Period $period = null)
     {
         $this->use = $use;
         $this->system = $system;
@@ -24,18 +24,24 @@ class ContactPoint
 
     public function toArray(): array
     {
-        $data = [
-            'use' => $this->use,
-            'system' => $this->system,
-            'value' => $this->value,
-        ];
+        if (isset($this->system)) {
+            $data['system'] = $this->system;
+        }
 
-        if (!empty($this->rank)) {
+        if (isset($this->use)) {
+            $data['use'] = $this->use;
+        }
+
+        if (isset($this->value)) {
+            $data['value'] = $this->value;
+        }
+
+        if (isset($this->rank)) {
             $data['rank'] = $this->rank;
         }
 
-        if (!empty($this->period)) {
-            $data['period'] = $this->period;
+        if (isset($this->period)) {
+            $data['period'] = $this->period->toArray();
         }
 
         return $data;
