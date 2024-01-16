@@ -1,9 +1,8 @@
-<?php
+<?php require __DIR__ . '/../../Auth/oauth2.php';
 
 use agumil\SatuSehatSDK\Builder\PayloadBuilderPatient;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Coding;
-use agumil\SatuSehatSDK\DataType\CodingMulti;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\Endpoint;
@@ -12,15 +11,13 @@ use agumil\SatuSehatSDK\HL7\IdentifierUse;
 use agumil\SatuSehatSDK\HL7\NameUse;
 use agumil\SatuSehatSDK\SSClient;
 
-require __DIR__ . '/../../Auth/oauth2.php';
-
 // init client
 $ssclient = new SSClient($oauth2, ['base_url' => Endpoint::DEV_FHIR]);
 
 // patient data
 $identifier = new Identifier(
-    IdentifierUse::CODE_OFFICIAL,
     'https://fhir.kemkes.go.id/id/nik',
+    IdentifierUse::CODE_OFFICIAL,
     '123456789123456'
 );
 $name = new HumanName(
@@ -38,7 +35,7 @@ $language1_coding = new Coding(
     'id-ID',
     'Indonesian'
 );
-$language = new CodeableConcept(new CodingMulti($language1_coding), 'Indonesian');
+$language = new CodeableConcept('Indonesian', $language1_coding);
 
 // init payload builder organization
 $builder = new PayloadBuilderPatient();

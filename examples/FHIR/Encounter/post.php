@@ -16,8 +16,8 @@ $ssclient = new SSClient($oauth2, ['base_url' => Endpoint::DEV_FHIR]);
 
 // encounter data
 $identifier = new Identifier(
+    'http://sys-ids.kemkes.go.id/organization/84c403fb-d228-4b21-9557-0c58c618b8b9',
     IdentifierUse::CODE_OFFICIAL,
-    'http://sys-ids.kemkes.go.id/organization/8c573890-ef6a-49eb-a80d-2adaf1ff8731',
     '123456'
 );
 $subject = new Reference('Patient/9271060312000001', null, 'patient 1');
@@ -34,7 +34,7 @@ $period = new Period($period_start);
 
 $location = new Reference('Location/dc01c797-547a-4e4d-97cd-4ece0630e380');
 
-$service_provider = new Reference('Organization/8c573890-ef6a-49eb-a80d-2adaf1ff8731');
+$service_provider = new Reference('Organization/84c403fb-d228-4b21-9557-0c58c618b8b9');
 
 // init payload builder encounter
 $payloadBuilder = new PayloadBuilderEncounter();
@@ -42,7 +42,7 @@ $payload = $payloadBuilder
     ->addIdentifier($identifier)
     ->setSubject($subject)
     ->setStatus($status)
-    ->addStatusHistory($status)
+    ->addStatusHistory($status, $period)
     ->setClass($class)
     ->addParticipant($participant_individual)
     ->setPeriod($period)

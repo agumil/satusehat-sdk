@@ -5,7 +5,6 @@ use agumil\SatuSehatSDK\Builder\PayloadBuilderOrganization;
 use agumil\SatuSehatSDK\DataType\Address;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Coding;
-use agumil\SatuSehatSDK\DataType\CodingMulti;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
 use agumil\SatuSehatSDK\DataType\ContactPointMulti;
 use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
@@ -30,17 +29,17 @@ $type_coding1 = new Coding(
     OrganizationType::CODE_HEALTHCARE_PROVIDER,
     OrganizationType::getDisplayCode(OrganizationType::CODE_HEALTHCARE_PROVIDER)
 );
-$type = new CodeableConcept(new CodingMulti($type_coding1));
+$type = new CodeableConcept(null, $type_coding1);
 
 $contact1 = new ContactPoint(
-    ContactPointUse::CODE_WORK,
     ContactPointSystem::CODE_EMAIL,
+    ContactPointUse::CODE_WORK,
     'john45doe@oneway.com'
 );
 
 $contact2 = new ContactPoint(
-    ContactPointUse::CODE_WORK,
     ContactPointSystem::CODE_PHONE,
+    ContactPointUse::CODE_WORK,
     '+6281212345678'
 );
 
@@ -61,9 +60,7 @@ $contact_purpose_coding1 = new Coding(
     ContactEntityType::CODE_BILLING,
     ContactEntityType::getDisplayCode(ContactEntityType::CODE_BILLING)
 );
-$contact_purpose = new CodeableConcept(
-    new CodingMulti($contact_purpose_coding1)
-);
+$contact_purpose = new CodeableConcept(null, $contact_purpose_coding1);
 
 $contact_name = new HumanName(
     NameUse::CODE_OFFICIAL,
@@ -72,8 +69,8 @@ $contact_name = new HumanName(
 );
 
 $contact_telecom1 = new ContactPoint(
-    ContactPointUse::CODE_WORK,
     ContactPointSystem::CODE_PHONE,
+    ContactPointUse::CODE_WORK,
     '+6281234567891'
 );
 

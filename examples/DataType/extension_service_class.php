@@ -15,7 +15,7 @@ $coding1 = new Coding(
     $bpjs_class_display_name
 );
 
-$value = new CodeableConcept(new CodingMulti($coding1));
+$value = new CodeableConcept(null, $coding1);
 $var = new ExtensionServiceClass($value);
 $var = $var->toArray();
 
