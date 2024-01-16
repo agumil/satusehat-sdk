@@ -5,17 +5,26 @@ use agumil\SatuSehatSDK\DataType\Address;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\HumanName;
+use agumil\SatuSehatSDK\DataType\Identifier;
+use agumil\SatuSehatSDK\DataType\Reference;
 use agumil\SatuSehatSDK\Endpoint;
 use agumil\SatuSehatSDK\HL7\AddressType;
 use agumil\SatuSehatSDK\HL7\AddressUse;
 use agumil\SatuSehatSDK\HL7\ContactEntityType;
+use agumil\SatuSehatSDK\HL7\IdentifierUse;
 use agumil\SatuSehatSDK\HL7\NameUse;
 use agumil\SatuSehatSDK\SSClient;
+use agumil\SatuSehatSDK\Terminology\KemKes\IdentifierSystem;
 
 // init client
 $ssclient = new SSClient($oauth2, ['base_url' => Endpoint::DEV_FHIR]);
 
 // organization data
+$org_identifier = new Identifier(
+    IdentifierSystem::organization('84c403fb-d228-4b21-9557-0c58c618b8b9'),
+    IdentifierUse::CODE_OFFICIAL,
+    '1'
+);
 $org_name = 'Demo Organization';
 $org_is_active = true;
 $org_address = new Address(
@@ -42,13 +51,18 @@ $contact_name = new HumanName(
     'Gumilang'
 );
 
+$part_of = new Reference('Organization/84c403fb-d228-4b21-9557-0c58c618b8b9');
+
 // init payload builder organization
 $builder = new PayloadBuilderOrganization();
 
-$payload = $builder->setName($org_name)
+$payload = $builder
+    ->addIdentifier($org_identifier)
+    ->setName($org_name)
     ->setActive($org_is_active)
     ->addAddress($org_address)
     ->addContact($contact_purpose, $contact_name)
+    ->setPartOf($part_of)
     ->build();
 
 $response = $ssclient->createOrganization($payload);
