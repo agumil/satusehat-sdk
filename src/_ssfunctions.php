@@ -1,8 +1,7 @@
 <?php
 
 use agumil\SatuSehatSDK\DataType\Address;
-use agumil\SatuSehatSDK\DataType\Extension;
-use agumil\SatuSehatSDK\DataType\ExtensionExtended;
+use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\Period;
 
 if (!function_exists('ss_address')) {
@@ -13,33 +12,8 @@ if (!function_exists('ss_address')) {
 }
 
 if (!function_exists('ss_address_extension')) {
-    function ss_address_extension(int $provinceCode, ?int $cityCode = null, ?int $districtCode = null, ?int $villageCode = null, ?int $rt = null, ?int $rw = null): ExtensionExtended
+    function ss_address_extension(?int $provinceCode = null, ?int $cityCode = null, ?int $districtCode = null, ?int $villageCode = null, ?int $rt = null, ?int $rw = null): ExtensionAdministrativeCode
     {
-        $extensions[] = new Extension('province', (string) $provinceCode, 'Code');
-
-        if (isset($cityCode)) {
-            $extensions[] = new Extension('city', (string) $cityCode, 'Code');
-        }
-
-        if (isset($districtCode)) {
-            $extensions[] = new Extension('city', (string) $districtCode, 'Code');
-        }
-
-        if (isset($villageCode)) {
-            $extensions[] = new Extension('city', (string) $villageCode, 'Code');
-        }
-
-        if (isset($rt)) {
-            $extensions[] = new Extension('city', (string) $rt, 'Code');
-        }
-
-        if (isset($rw)) {
-            $extensions[] = new Extension('city', (string) $rw, 'Code');
-        }
-
-        return new ExtensionExtended(
-            'https://fhir.kemkes.go.id/r4/StructureDefinition/administrativeCode',
-            ...$extensions
-        );
+        return new ExtensionAdministrativeCode($provinceCode, $cityCode, $districtCode, $villageCode, $rt, $rw);
     }
 }
