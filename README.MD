@@ -13,7 +13,7 @@
 
 ## Note
 
-This package is on-progress, documentation is very limited AND you may find out that several components are missing or many payload builders are incomplete. Please try this on your Development Environment first to prevent any possible break to your project.
+This package is on-progress, documentation is very limited AND you may find out that several components are incomplete. Please try this on your Development Environment first to prevent any possible break to your project.
 
 ## Key Features
 
@@ -33,13 +33,13 @@ This package is on-progress, documentation is very limited AND you may find out 
 To run this library, you'll need PHP 7.4+, and Composer. From your command line:
 
 ```bash
-# Clone this repository
+# install this package
 $ composer require agumil/satusehat-sdk
 ```
 
 You could save your SATUSEHAT ENVIRONMENT, CLIENT ID, and CLIENT_SECRET to your .env file(s). From your command line:
 ```bash
-# Clone this repository
+# install recommended library
 $ composer require vlucas/phpdotenv
 ```
 
@@ -47,6 +47,7 @@ Supported ENV:
 ```bash
 # Choose one of the three options below
 SATUSEHAT_ENV=development|staging|production
+SATUSEHAT_ORGANIZATION_ID=organization_id
 SATUSEHAT_CLIENT_ID=client_id
 SATUSEHAT_CLIENT_SECRET=client_secret
 ```
