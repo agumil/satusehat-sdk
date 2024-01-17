@@ -2,9 +2,9 @@
 namespace agumil\SatuSehatSDK\Builder;
 
 use agumil\SatuSehatSDK\DataType\Address;
+use agumil\SatuSehatSDK\DataType\BundleContactPoint;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
-use agumil\SatuSehatSDK\DataType\ContactPointMulti;
 use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
@@ -145,7 +145,7 @@ class PayloadBuilderPatient
         return $this;
     }
 
-    public function addContact(?HumanName $name = null, ?ContactPointMulti $telecom = null, CodeableConcept ...$relationships)
+    public function addContact(?HumanName $name = null, ?BundleContactPoint $telecom = null, CodeableConcept ...$relationships)
     {
         if (isset($name)) {
             $data['name'] = $name->toArray();

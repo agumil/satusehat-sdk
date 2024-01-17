@@ -3,10 +3,10 @@
 use agumil\SatuSehatSDK\Auth\Oauth2;
 use agumil\SatuSehatSDK\Builder\PayloadBuilderOrganization;
 use agumil\SatuSehatSDK\DataType\Address;
+use agumil\SatuSehatSDK\DataType\BundleContactPoint;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
-use agumil\SatuSehatSDK\DataType\ContactPointMulti;
 use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\HL7\AddressType;
@@ -81,7 +81,7 @@ $payload = $builder->setName($name_organization)
     ->addTelecom($contact1)
     ->addTelecom($contact2)
     ->addAddress($address1, $address1_extension)
-    ->addContact($contact_purpose, $contact_name, new ContactPointMulti($contact_telecom1))
+    ->addContact($contact_purpose, $contact_name, new BundleContactPoint($contact_telecom1))
     ->build();
 
 $response = $ssclient->updateOrganization($id, $payload);
