@@ -42,4 +42,9 @@ class IdentifierSystem
     {
         return 'http://sys-ids.kemkes.go.id/condition/' . $organizationId;
     }
+
+    public static function allergy(string $organizationId): string
+    {
+        return 'http://sys-ids.kemkes.go.id/allergy/' . $organizationId;
+    }
 }
