@@ -1,7 +1,7 @@
 <?php
 namespace agumil\SatuSehatSDK\DataType;
 
-class ContactPointMulti
+class BundleContactPoint
 {
     private array $contact_points;
 
