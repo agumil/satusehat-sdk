@@ -1,5 +1,5 @@
 <?php
-namespace agumil\SatuSehatSDK\FHIR;
+namespace agumil\SatuSehatSDK\Interface\Consent;
 
 interface ConsentInterface
 {

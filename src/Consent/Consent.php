@@ -1,10 +1,11 @@
 <?php
-namespace agumil\SatuSehatSDK\FHIR;
+namespace agumil\SatuSehatSDK\Consent;
 
 use agumil\SatuSehatSDK\Auth\Oauth2;
 use agumil\SatuSehatSDK\Endpoint;
 use agumil\SatuSehatSDK\Exception\SSEnvException;
 use agumil\SatuSehatSDK\Helper\EnvHelper;
+use agumil\SatuSehatSDK\Interface\Consent\ConsentInterface;
 use agumil\SatuSehatSDK\Request\HttpRequest;
 use agumil\SatuSehatSDK\Response\Response;
 
