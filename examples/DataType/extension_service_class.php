@@ -2,7 +2,6 @@
 
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Coding;
-use agumil\SatuSehatSDK\DataType\CodingMulti;
 use agumil\SatuSehatSDK\DataType\ExtensionServiceClass;
 use agumil\SatuSehatSDK\Terminology\KemKes\ServiceClassOutpatient;
 
