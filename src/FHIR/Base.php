@@ -17,11 +17,11 @@ class Base
         if (isset($config['base_url'])) {
             $this->base_url = $config['base_url'];
         } else {
-            if (EnvHelper::isDevelopment()) {
+            if (EnvHelper::isDevelopment() || $config['environment'] === 'development') {
                 $this->base_url = Endpoint::DEV_FHIR;
-            } elseif (EnvHelper::isStaging()) {
+            } elseif (EnvHelper::isStaging() || $config['environment'] === 'staging') {
                 $this->base_url = Endpoint::STG_FHIR;
-            } elseif (EnvHelper::isProduction()) {
+            } elseif (EnvHelper::isProduction() || $config['environment'] === 'production') {
                 $this->base_url = Endpoint::PROD_FHIR;
             } else {
                 $env = EnvHelper::ENV;

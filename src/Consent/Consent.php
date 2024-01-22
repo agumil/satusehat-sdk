@@ -20,11 +20,11 @@ class Consent implements ConsentInterface
         if (isset($config['base_url'])) {
             $this->base_url = $config['base_url'];
         } else {
-            if (EnvHelper::isDevelopment()) {
+            if (EnvHelper::isDevelopment() || $config['environment'] === 'development') {
                 $this->base_url = Endpoint::DEV_CONSENT;
-            } elseif (EnvHelper::isStaging()) {
+            } elseif (EnvHelper::isStaging() || $config['environment'] === 'staging') {
                 $this->base_url = Endpoint::STG_CONSENT;
-            } elseif (EnvHelper::isProduction()) {
+            } elseif (EnvHelper::isProduction() || $config['environment'] === 'production') {
                 $this->base_url = Endpoint::PROD_CONSENT;
             } else {
                 $env = EnvHelper::ENV;
