@@ -13,7 +13,7 @@ class PayloadBuilderLocation
 {
     private static $resource_type = 'Location';
 
-    private bool $active;
+    private string $status;
 
     private string $name;
 
@@ -45,9 +45,9 @@ class PayloadBuilderLocation
 
     private array $service_class;
 
-    public function setActive(bool $isActive)
+    public function setStatus(string $status)
     {
-        $this->active = boolval($isActive);
+        $this->status = $status;
 
         return $this;
     }
@@ -108,7 +108,7 @@ class PayloadBuilderLocation
         return $this;
     }
 
-    public function addAddress(Address $address, ExtensionAdministrativeCode ...$extensions)
+    public function addAddress(Address $address, ExtensionAdministrativeCode...$extensions)
     {
         $dataAddress = $address->toArray();
 
@@ -174,8 +174,8 @@ class PayloadBuilderLocation
     {
         $data['resourceType'] = self::$resource_type;
 
-        if (!empty($this->active)) {
-            $data['active'] = $this->active;
+        if (!empty($this->status)) {
+            $data['status'] = $this->status;
         }
 
         if (!empty($this->name)) {
