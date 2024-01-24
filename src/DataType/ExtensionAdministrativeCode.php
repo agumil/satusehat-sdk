@@ -3,6 +3,8 @@ namespace agumil\SatuSehatSDK\DataType;
 
 class ExtensionAdministrativeCode
 {
+    private static $url = 'https://fhir.kemkes.go.id/r4/StructureDefinition/administrativeCode';
+
     private ?int $province;
 
     private ?int $city;
@@ -53,11 +55,6 @@ class ExtensionAdministrativeCode
             $extensions[] = new Extension('rw', (string) $this->rw, 'Code');
         }
 
-        $extensionExtended = new ExtensionExtended(
-            'https://fhir.kemkes.go.id/r4/StructureDefinition/administrativeCode',
-            ...$extensions
-        );
-
-        return $extensionExtended->toArray();
+        return (new ExtensionExtended(self::$url, ...$extensions))->toArray();
     }
 }

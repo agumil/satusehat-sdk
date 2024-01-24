@@ -3,6 +3,8 @@ namespace agumil\SatuSehatSDK\DataType;
 
 class ExtensionServiceClass
 {
+    private static $url = 'https://fhir.kemkes.go.id/r4/StructureDefinition/ServiceClass';
+
     private ?CodeableConcept $value;
 
     private ?CodeableConcept $upgrade_class_indicator;
@@ -25,11 +27,6 @@ class ExtensionServiceClass
             $extensions[] = new Extension('upgradeClassIndicator', $this->upgrade_class_indicator->toArray(), 'CodeableConcept');
         }
 
-        $extensionExtended = new ExtensionExtended(
-            'https://fhir.kemkes.go.id/r4/StructureDefinition/ServiceClass',
-            ...$extensions
-        );
-
-        return $extensionExtended->toArray();
+        return (new ExtensionExtended(self::$url, ...$extensions))->toArray();
     }
 }
