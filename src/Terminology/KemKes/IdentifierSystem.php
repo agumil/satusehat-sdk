@@ -8,9 +8,9 @@ class IdentifierSystem
         return 'http://sys-ids.kemkes.go.id/organization/' . $organizationId;
     }
 
-    public static function location(string $locationId): string
+    public static function location(string $organizationId): string
     {
-        return 'http://sys-ids.kemkes.go.id/location/' . $locationId;
+        return 'http://sys-ids.kemkes.go.id/location/' . $organizationId;
     }
 
     public static function patientNIK(): string

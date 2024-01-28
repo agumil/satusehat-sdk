@@ -75,4 +75,21 @@ class Response
     {
         return json_decode($this->content, true);
     }
+
+    public function getErrorMessages()
+    {
+        $content = $this->getContentAsArray();
+
+        $messages = [];
+        foreach ($content['issue'] as $issue) {
+            $tmpMsg = strtoupper($issue['severity']) . '::' . $issue['details']['text'];
+            if (isset($issue['diagnostics'])) {
+                $tmpMsg = $tmpMsg . ' - ' . $issue['diagnostics'];
+            }
+
+            $messages[] = $tmpMsg;
+        }
+
+        return $messages;
+    }
 }

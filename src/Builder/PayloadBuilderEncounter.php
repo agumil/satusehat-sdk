@@ -73,7 +73,7 @@ class PayloadBuilderEncounter
         return $this;
     }
 
-    public function addStatusHistory(string $status, ?Period $period = null)
+    public function addStatusHistory(string $status, Period $period)
     {
         $data['status'] = $status;
 
@@ -93,13 +93,12 @@ class PayloadBuilderEncounter
         return $this;
     }
 
-    public function addClassHistory(string $status, ?Period $period = null)
+    public function addClassHistory(Coding $class, Period $period)
     {
-        $data['status'] = $status;
-
-        if (isset($period)) {
-            $data['period'] = $period->toArray();
-        }
+        $data = [
+            'class' => $class->toArray(),
+            'period' => $period->toArray(),
+        ];
 
         $this->class_history[] = $data;
 
@@ -148,7 +147,7 @@ class PayloadBuilderEncounter
         return $this;
     }
 
-    public function addParticipant(Reference $individual, ?Period $period = null, CodeableConcept ...$type)
+    public function addParticipant(Reference $individual, ?Period $period = null, CodeableConcept...$type)
     {
         $types = [];
         foreach ($type as $val) {

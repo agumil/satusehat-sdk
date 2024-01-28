@@ -30,7 +30,7 @@ class Period
         }
 
         if (!empty($startDateTime) && !empty($endDateTime)) {
-            if ($epochStart < $epochEnd) {
+            if ($epochEnd < $epochStart) {
                 throw new SSDataTypeException('startDateTime should not lower than endDateTime.');
             }
         }
