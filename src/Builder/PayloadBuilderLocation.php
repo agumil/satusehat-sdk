@@ -87,9 +87,9 @@ class PayloadBuilderLocation
         return $this;
     }
 
-    public function addPhysicalType(Coding $physicalType)
+    public function setPhysicalType(CodeableConcept $physicalType)
     {
-        $this->physical_type[] = $physicalType->toArray();
+        $this->physical_type = $physicalType->toArray();
 
         return $this;
     }
