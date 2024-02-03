@@ -3,7 +3,7 @@ namespace agumil\SatuSehatSDK\HL7;
 
 use agumil\SatuSehatSDK\Interface\HL7Interface;
 
-class EventStatus implements HL7Interface
+class SpecimenStatus implements HL7Interface
 {
     const VERSION = '5.0.0';
     const SYSTEM = 'http://hl7.org/fhir/specimen-status';
