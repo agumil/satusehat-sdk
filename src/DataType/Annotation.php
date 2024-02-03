@@ -7,38 +7,43 @@ use DateTime;
 
 class Annotation
 {
-    private ?Reference $author;
+    private string $text;
 
     private ?string $time;
 
-    private ?string $text;
+    private ?Reference $authorReference;
 
-    public function __construct(?Reference $author = null, string $time = null, ?string $text = null)
+    private ?string $authorString;
+
+    public function __construct(string $text, ?string $dateTime = null, ?Reference $authorReference = null, ?string $authorString = null)
     {
-        $this->author = $author;
-        $this->time = $time;
-        $this->text = $text;
-
-        $isValid = ValidatorHelper::validDateTime($time);
-        if (!$isValid) {
-            throw new SSDataTypeException('Parameter time is unparseable by strtotime. Please provide a valid date.');
+        if (isset($dateTime)) {
+            $isValid = ValidatorHelper::validDateTime($dateTime);
+            if (!$isValid) {
+                throw new SSDataTypeException('Parameter dateTime is unparseable by strtotime. Please provide a valid date.');
+            }
         }
+
+        $this->text = $text;
+        $this->time = $dateTime;
+        $this->authorReference = $authorReference;
+        $this->authorString = $authorString;
     }
 
     public function toArray(): array
     {
-        $data = [];
-
-        if (isset($this->author)) {
-            $data['authorReference'] = $this->author->toArray();
-        }
+        $data['text'] = $this->text;
 
         if (isset($this->time)) {
             $data['time'] = (new DateTime($this->time))->format('c');
         }
 
-        if (isset($this->text)) {
-            $data['text'] = $this->text;
+        if (isset($this->authorReference)) {
+            $data['authorReference'] = $this->authorReference->toArray();
+        }
+
+        if (isset($this->authorString)) {
+            $data['authorString'] = $this->authorString;
         }
 
         return $data;

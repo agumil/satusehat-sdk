@@ -1,6 +1,7 @@
 <?php
 namespace agumil\SatuSehatSDK\Builder;
 
+use agumil\SatuSehatSDK\DataType\Annotation;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
@@ -28,6 +29,8 @@ class PayloadBuilderCondition
     private array $severity;
 
     private string $recorded_date;
+
+    private array $note;
 
     public function addIdentifier(Identifier $identifier)
     {
@@ -97,6 +100,13 @@ class PayloadBuilderCondition
         return $this;
     }
 
+    public function addNote(Annotation $note)
+    {
+        $this->note[] = $note->toArray();
+
+        return $this;
+    }
+
     public function build(): array
     {
         $data['resourceType'] = self::$resource_type;
@@ -135,6 +145,10 @@ class PayloadBuilderCondition
 
         if (!empty($this->recorded_date)) {
             $data['recordedDate'] = $this->recorded_date;
+        }
+
+        if (!empty($this->note)) {
+            $data['note'] = $this->note;
         }
 
         return $data;
