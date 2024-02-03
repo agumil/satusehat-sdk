@@ -17,7 +17,7 @@ class ValidatorHelper
         }
     }
 
-    public static function in($needle, array $haystack, bool $is_return = true)
+    public static function in($needle, array $haystack, bool $is_return = false)
     {
         if ($is_return) {
             return in_array($needle, $haystack);

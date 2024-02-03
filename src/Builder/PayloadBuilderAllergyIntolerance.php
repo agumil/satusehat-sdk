@@ -8,6 +8,10 @@ use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
 use agumil\SatuSehatSDK\Exception\SSDataTypeException;
 use agumil\SatuSehatSDK\Helper\ValidatorHelper;
+use agumil\SatuSehatSDK\HL7\AllergyIntoleranceCategory;
+use agumil\SatuSehatSDK\HL7\AllergyIntoleranceClinicalStatus;
+use agumil\SatuSehatSDK\HL7\AllergyIntoleranceType;
+use agumil\SatuSehatSDK\HL7\AllergyIntoleranceVerificationStatus;
 
 class PayloadBuilderAllergyIntolerance
 {
@@ -15,11 +19,19 @@ class PayloadBuilderAllergyIntolerance
 
     private array $identifier;
 
+    private string $clinical_status;
+
+    private string $verification_status;
+
+    private string $type;
+
     private array $category;
 
     private array $code;
 
     private array $patient;
+
+    private array $encounter;
 
     private array $reaction;
 
@@ -30,8 +42,53 @@ class PayloadBuilderAllergyIntolerance
         return $this;
     }
 
+    public function setClinicalStatus(string $clinicalStatus)
+    {
+        $status = AllergyIntoleranceClinicalStatus::getCodes();
+        if (!in_array($clinicalStatus, $status)) {
+            $status = implode(',', $status);
+            throw new SSDataTypeException("clinicalStatus must be one of {$status}");
+        }
+
+        $this->clinical_status = $clinicalStatus;
+
+        return $this;
+    }
+
+    public function setVerificationStatus(string $verificationStatus)
+    {
+        $status = AllergyIntoleranceVerificationStatus::getCodes();
+        if (!in_array($verificationStatus, $status)) {
+            $status = implode(',', $status);
+            throw new SSDataTypeException("verificationStatus must be one of {$status}");
+        }
+
+        $this->verification_status = $verificationStatus;
+
+        return $this;
+    }
+
+    public function setType(string $type)
+    {
+        $status = AllergyIntoleranceType::getCodes();
+        if (!in_array($type, $status)) {
+            $status = implode(',', $status);
+            throw new SSDataTypeException("type must be one of {$status}");
+        }
+
+        $this->type = $type;
+
+        return $this;
+    }
+
     public function addCategory(string $category)
     {
+        $status = AllergyIntoleranceCategory::getCodes();
+        if (!in_array($category, $status)) {
+            $status = implode(',', $status);
+            throw new SSDataTypeException("category must be one of {$status}");
+        }
+
         $this->category[] = $category;
 
         return $this;
@@ -47,6 +104,13 @@ class PayloadBuilderAllergyIntolerance
     public function setPatient(Reference $patient)
     {
         $this->patient = $patient->toArray();
+
+        return $this;
+    }
+
+    public function setEncounter(Reference $encounter)
+    {
+        $this->encounter = $encounter->toArray();
 
         return $this;
     }
@@ -101,6 +165,18 @@ class PayloadBuilderAllergyIntolerance
             $data['identifier'] = $this->identifier;
         }
 
+        if (!empty($this->clinical_status)) {
+            $data['clinicalStatus'] = $this->clinical_status;
+        }
+
+        if (!empty($this->verification_status)) {
+            $data['verificationStatus'] = $this->verification_status;
+        }
+
+        if (!empty($this->type)) {
+            $data['type'] = $this->type;
+        }
+
         if (!empty($this->category)) {
             $data['category'] = $this->category;
         }
@@ -111,6 +187,10 @@ class PayloadBuilderAllergyIntolerance
 
         if (!empty($this->patient)) {
             $data['patient'] = $this->patient;
+        }
+
+        if (!empty($this->encounter)) {
+            $data['encounter'] = $this->encounter;
         }
 
         if (!empty($this->reaction)) {
