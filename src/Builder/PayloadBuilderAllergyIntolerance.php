@@ -35,6 +35,8 @@ class PayloadBuilderAllergyIntolerance
 
     private array $reaction;
 
+    private array $recorder;
+
     public function addIdentifier(Identifier $identifier)
     {
         $this->identifier[] = $identifier->toArray();
@@ -115,6 +117,13 @@ class PayloadBuilderAllergyIntolerance
         return $this;
     }
 
+    public function setRecorder(Reference $recorder)
+    {
+        $this->recorder = $recorder->toArray();
+
+        return $this;
+    }
+
     public function addReaction(BundleCodeableConcept $manifestation, ?BundleCodeableConcept $substance = null, string | array $description = null, ?string $onset = null, ?string $severity = null, ?CodeableConcept $exposureRoute = null, ?BundleAnnotation $annotation = null)
     {
         $data['manifestation'] = $manifestation->toArray();
@@ -187,6 +196,10 @@ class PayloadBuilderAllergyIntolerance
 
         if (!empty($this->patient)) {
             $data['patient'] = $this->patient;
+        }
+
+        if (!empty($this->recorder)) {
+            $data['recorder'] = $this->recorder;
         }
 
         if (!empty($this->encounter)) {
