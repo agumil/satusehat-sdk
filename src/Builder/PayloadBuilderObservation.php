@@ -3,7 +3,10 @@ namespace agumil\SatuSehatSDK\Builder;
 
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Identifier;
+use agumil\SatuSehatSDK\DataType\Period;
+use agumil\SatuSehatSDK\DataType\Quantity;
 use agumil\SatuSehatSDK\DataType\Reference;
+use agumil\SatuSehatSDK\Exception\SSDataTypeException;
 
 class PayloadBuilderObservation
 {
@@ -18,6 +21,8 @@ class PayloadBuilderObservation
     private array $subject;
 
     private array $encounter;
+
+    private array $component;
 
     public function addIdentifier(Identifier $identifier)
     {
@@ -54,6 +59,29 @@ class PayloadBuilderObservation
         return $this;
     }
 
+    public function addComponent(CodeableConcept $code, Quantity | CodeableConcept | Period | string | bool | int $value)
+    {
+        $data['code'] = $code->toArray();
+
+        if ($value instanceof Quantity) {
+            $data['valueQuantity'] = $value->toArray();
+        } elseif ($value instanceof CodeableConcept) {
+            $data['valueCodeableConcept'] = $value->toArray();
+        } elseif ($value instanceof Period) {
+            $data['valuePeriod'] = $value->toArray();
+        } elseif (is_string($value)) {
+            $data['valueString'] = $value;
+        } elseif (is_int($value)) {
+            $data['valueInteger'] = $value;
+        } elseif (is_bool($value)) {
+            $data['valueBoolean'] = $value;
+        } else {
+            throw new SSDataTypeException('Value data type is not supported');
+        }
+
+        $this->component[] = $data;
+    }
+
     public function build(): array
     {
         $data['resourceType'] = self::$resource_type;
@@ -76,6 +104,10 @@ class PayloadBuilderObservation
 
         if (!empty($this->encounter)) {
             $data['encounter'] = $this->encounter;
+        }
+
+        if (!empty($this->component)) {
+            $data['component'] = $this->component;
         }
 
         return $data;
