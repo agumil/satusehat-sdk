@@ -3,7 +3,7 @@ namespace agumil\SatuSehatSDK\HL7;
 
 use agumil\SatuSehatSDK\Interface\HL7Interface;
 
-class ObservationStatus implements HL7Interface
+class ObservationCategory implements HL7Interface
 {
     const VERSION = '5.0.0';
     const SYSTEM = 'http://terminology.hl7.org/CodeSystem/observation-category';
