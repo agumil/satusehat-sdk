@@ -22,6 +22,8 @@ class PayloadBuilderObservation
 
     private array $encounter;
 
+    private array $performer;
+
     private array $component;
 
     public function addIdentifier(Identifier $identifier)
@@ -55,6 +57,13 @@ class PayloadBuilderObservation
     public function setEncounter(Reference $encounter)
     {
         $this->encounter = $encounter->toArray();
+
+        return $this;
+    }
+
+    public function addPerformer(Reference $performer)
+    {
+        $this->performer[] = $performer->toArray();
 
         return $this;
     }
@@ -104,6 +113,10 @@ class PayloadBuilderObservation
 
         if (!empty($this->encounter)) {
             $data['encounter'] = $this->encounter;
+        }
+
+        if (!empty($this->performer)) {
+            $data['performer'] = $this->performer;
         }
 
         if (!empty($this->component)) {
