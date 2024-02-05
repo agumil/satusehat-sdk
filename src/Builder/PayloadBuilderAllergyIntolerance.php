@@ -9,9 +9,7 @@ use agumil\SatuSehatSDK\DataType\Reference;
 use agumil\SatuSehatSDK\Exception\SSDataTypeException;
 use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 use agumil\SatuSehatSDK\HL7\AllergyIntoleranceCategory;
-use agumil\SatuSehatSDK\HL7\AllergyIntoleranceClinicalStatus;
 use agumil\SatuSehatSDK\HL7\AllergyIntoleranceType;
-use agumil\SatuSehatSDK\HL7\AllergyIntoleranceVerificationStatus;
 
 class PayloadBuilderAllergyIntolerance
 {
@@ -19,9 +17,9 @@ class PayloadBuilderAllergyIntolerance
 
     private array $identifier;
 
-    private string $clinical_status;
+    private array $clinical_status;
 
-    private string $verification_status;
+    private array $verification_status;
 
     private string $type;
 
@@ -44,28 +42,16 @@ class PayloadBuilderAllergyIntolerance
         return $this;
     }
 
-    public function setClinicalStatus(string $clinicalStatus)
+    public function setClinicalStatus(CodeableConcept $clinicalStatus)
     {
-        $status = AllergyIntoleranceClinicalStatus::getCodes();
-        if (!in_array($clinicalStatus, $status)) {
-            $status = implode(',', $status);
-            throw new SSDataTypeException("clinicalStatus must be one of {$status}");
-        }
-
-        $this->clinical_status = $clinicalStatus;
+        $this->clinical_status = $clinicalStatus->toArray();
 
         return $this;
     }
 
-    public function setVerificationStatus(string $verificationStatus)
+    public function setVerificationStatus(CodeableConcept $verificationStatus)
     {
-        $status = AllergyIntoleranceVerificationStatus::getCodes();
-        if (!in_array($verificationStatus, $status)) {
-            $status = implode(',', $status);
-            throw new SSDataTypeException("verificationStatus must be one of {$status}");
-        }
-
-        $this->verification_status = $verificationStatus;
+        $this->verification_status = $verificationStatus->toArray();
 
         return $this;
     }
