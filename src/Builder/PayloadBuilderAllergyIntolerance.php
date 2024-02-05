@@ -94,9 +94,9 @@ class PayloadBuilderAllergyIntolerance
         return $this;
     }
 
-    public function addCode(CodeableConcept $code)
+    public function setCode(CodeableConcept $code)
     {
-        $this->code[] = $code->toArray();
+        $this->code = $code->toArray();
 
         return $this;
     }
