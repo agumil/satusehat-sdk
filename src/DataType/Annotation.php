@@ -17,7 +17,7 @@ class Annotation
 
     public function __construct(string $text, ?string $dateTime = null, ?Reference $authorReference = null, ?string $authorString = null)
     {
-        if (isset($dateTime)) {
+        if (!empty($dateTime)) {
             $isValid = ValidatorHelper::validDateTime($dateTime);
             if (!$isValid) {
                 throw new SSDataTypeException('Parameter dateTime is unparseable by strtotime. Please provide a valid date.');

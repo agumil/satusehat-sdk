@@ -18,7 +18,7 @@ class Coding
     public function __construct(?string $system = null, ?string $code = null, ?string $display = null, ?bool $userSelected = null, ?string $version = null)
     {
         if (empty($code) && !empty($display)) {
-            throw new SSDataTypeException('Parameter code must be provice when parameter display is exist.');
+            throw new SSDataTypeException('Parameter code must be provided when parameter display is exist.');
         }
 
         $this->system = $system;

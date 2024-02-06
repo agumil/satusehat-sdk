@@ -1,6 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\DataType;
 
+use agumil\SatuSehatSDK\Exception\SSDataTypeException;
+use agumil\SatuSehatSDK\HL7\QuantityComparator;
+
 class Quantity
 {
     protected $value;
@@ -15,11 +18,20 @@ class Quantity
 
     public function __construct(?string $system = null, ?string $code = null, $value = null, ?string $unit = null, ?string $comparator = null)
     {
+        if (!empty($comparator)) {
+            $allowed_comparator = QuantityComparator::getCodes();
+            if (!in_array($comparator, $allowed_comparator)) {
+                $allowed_comparator = implode(',', $allowed_comparator);
+                throw new SSDataTypeException("comparator must be one of {$allowed_comparator}");
+            }
+
+            $this->comparator = $comparator;
+        }
+
         $this->value = $value;
         $this->code = $code;
         $this->system = $system;
         $this->unit = $unit;
-        $this->comparator = $comparator;
     }
 
     public function toArray(): array
