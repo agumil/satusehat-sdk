@@ -1,10 +1,9 @@
 <?php require __DIR__ . '/../../Auth/oauth2.php';
 
-use agumil\SatuSehatSDK\Endpoint;
 use agumil\SatuSehatSDK\SSClient;
 
 // init client
-$ssclient = new SSClient($oauth2, ['base_url' => Endpoint::DEV_FHIR]);
+$ssclient = new SSClient($oauth2, ['environment' => 'development']);
 
 // get by organization
 $params['organization'] = '10000004';

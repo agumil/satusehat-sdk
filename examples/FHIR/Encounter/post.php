@@ -5,7 +5,6 @@ use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Period;
 use agumil\SatuSehatSDK\DataType\Reference;
-use agumil\SatuSehatSDK\Endpoint;
 use agumil\SatuSehatSDK\HL7\EncounterCode;
 use agumil\SatuSehatSDK\HL7\IdentifierUse;
 use agumil\SatuSehatSDK\SSClient;
@@ -13,7 +12,7 @@ use agumil\SatuSehatSDK\Terminology\KemKes\EncounterStatus;
 use agumil\SatuSehatSDK\Terminology\KemKes\IdentifierSystem;
 
 // init client
-$ssclient = new SSClient($oauth2, ['base_url' => Endpoint::DEV_FHIR]);
+$ssclient = new SSClient($oauth2, ['environment' => 'development']);
 
 // encounter data
 $identifier = new Identifier(

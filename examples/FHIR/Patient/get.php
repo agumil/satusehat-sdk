@@ -1,10 +1,9 @@
 <?php require __DIR__ . '/../../Auth/oauth2.php';
 
-use agumil\SatuSehatSDK\Endpoint;
 use agumil\SatuSehatSDK\SSClient;
 
 // init client
-$ssclient = new SSClient($oauth2, ['base_url' => Endpoint::DEV_FHIR]);
+$ssclient = new SSClient($oauth2, ['environment' => 'development']);
 
 // get by name
 $params['identifier'] = 'https://fhir.kemkes.go.id/id/nik|9271060312000001';

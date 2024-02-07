@@ -7,7 +7,6 @@ use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
-use agumil\SatuSehatSDK\Endpoint;
 use agumil\SatuSehatSDK\HL7\AddressType;
 use agumil\SatuSehatSDK\HL7\AddressUse;
 use agumil\SatuSehatSDK\HL7\ContactEntityType;
@@ -17,7 +16,7 @@ use agumil\SatuSehatSDK\SSClient;
 use agumil\SatuSehatSDK\Terminology\KemKes\IdentifierSystem;
 
 // init client
-$ssclient = new SSClient($oauth2, ['base_url' => Endpoint::DEV_FHIR]);
+$ssclient = new SSClient($oauth2, ['environment' => 'development']);
 
 // organization data
 $org_identifier = new Identifier(

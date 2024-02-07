@@ -5,14 +5,13 @@ use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
-use agumil\SatuSehatSDK\Endpoint;
 use agumil\SatuSehatSDK\HL7\AdministrativeGender;
 use agumil\SatuSehatSDK\HL7\IdentifierUse;
 use agumil\SatuSehatSDK\HL7\NameUse;
 use agumil\SatuSehatSDK\SSClient;
 
 // init client
-$ssclient = new SSClient($oauth2, ['base_url' => Endpoint::DEV_FHIR]);
+$ssclient = new SSClient($oauth2, ['environment' => 'development']);
 
 // patient data
 $identifier = new Identifier(

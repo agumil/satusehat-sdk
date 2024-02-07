@@ -1,6 +1,5 @@
 <?php require __DIR__ . '/../../Auth/oauth2.php';
 
-use agumil\SatuSehatSDK\Auth\Oauth2;
 use agumil\SatuSehatSDK\Builder\PayloadBuilderOrganization;
 use agumil\SatuSehatSDK\DataType\Address;
 use agumil\SatuSehatSDK\DataType\BundleContactPoint;
@@ -19,7 +18,7 @@ use agumil\SatuSehatSDK\HL7\OrganizationType;
 use agumil\SatuSehatSDK\SSClient;
 
 // init client
-$ssclient = new SSClient(new Oauth2($config1), $config2);
+$ssclient = new SSClient($oauth2, ['environment' => 'development']);
 
 // organization data
 $id = 'b152874d-20e1-424a-8c3f-e54c6fe09b94';
