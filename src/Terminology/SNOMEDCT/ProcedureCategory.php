@@ -34,10 +34,10 @@ class ProcedureCategory implements HL7Interface
             self::CODE_PSYCHIATRY => 'Psychiatry procedure or service',
             self::CODE_COUNSELING => 'Counseling',
             self::CODE_EDUCATION => 'Education',
-            self::CODE_SURGICAL => 'Surgical procedure (procedure)',
+            self::CODE_SURGICAL => 'Surgical procedure',
             self::CODE_DIAGNOSTIC => 'Diagnostic procedure',
             self::CODE_CHIROPRACTIC => 'Chiropractic manipulation',
-            self::CODE_SOCIAL => 'Social service procedure (procedure)',
+            self::CODE_SOCIAL => 'Social service procedure',
         ];
 
         return @$displays[$code];
