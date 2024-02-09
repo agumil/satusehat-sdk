@@ -1,5 +1,5 @@
 <?php
-namespace agumil\SatuSehatSDK\HL7;
+namespace agumil\SatuSehatSDK\Terminology\SNOMEDCT;
 
 use agumil\SatuSehatSDK\Interface\HL7Interface;
 
