@@ -6,6 +6,7 @@ use Dotenv\Dotenv;
 class EnvHelper
 {
     const ENV = 'SATUSEHAT_ENV';
+    const ORGANIZATION_ID = 'SATUSEHAT_ORGANIZATION_ID';
     const CLIENT_ID = 'SATUSEHAT_CLIENT_ID';
     const CLIENT_SECRET = 'SATUSEHAT_CLIENT_SECRET';
 
@@ -13,9 +14,10 @@ class EnvHelper
     {
         $dotenv = Dotenv::createImmutable(__DIR__);
         $dotenv->required([
-            'SATUSEHAT_ENV',
-            'SATUSEHAT_CLIENT_ID',
-            'SATUSEHAT_CLIENT_SECRET',
+            self::ENV,
+            self::ORGANIZATION_ID,
+            self::CLIENT_ID,
+            self::CLIENT_SECRET,
         ]);
     }
 
@@ -38,6 +40,11 @@ class EnvHelper
         $env = @$_ENV[self::ENV];
 
         return $env === 'production';
+    }
+
+    public static function getOrganizationId()
+    {
+        return @$_ENV[self::ORGANIZATION_ID];
     }
 
     public static function getClientId()

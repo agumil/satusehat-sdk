@@ -16,6 +16,8 @@ class Oauth2
 {
     private $base_url;
 
+    private $organization_id;
+
     private $client_id;
 
     private $client_secret;
@@ -37,9 +39,20 @@ class Oauth2
                 $this->base_url = Endpoint::PROD_OAUTH2;
             } else {
                 $env = EnvHelper::ENV;
-                throw new SSEnvException("Environment {$env} value is invalid or not exist. Valid environment value is one of 'development', 'staging', or 'production'.");
+                throw new SSEnvException("Oauth2 - Environment '{$env}' OR Configuration 'base_url' must be provided. Valid value is one of 'development', 'staging', or 'production'.");
             }
         }
+
+        if (isset($config['organization_id'])) {
+            $this->organization_id = $config['organization_id'];
+        } else {
+            $this->organization_id = EnvHelper::getOrganizationId();
+        }
+
+        // if (empty($this->organization_id)) {
+        //     $env_organizationid = EnvHelper::ORGANIZATION_ID;
+        //     throw new SSEnvException("Oauth2 - Environment '{$env_organizationid}' OR Configuration 'organization_id' must be provided.");
+        // }
 
         if (isset($config['client_id'])) {
             $this->client_id = $config['client_id'];
@@ -47,10 +60,20 @@ class Oauth2
             $this->client_id = EnvHelper::getClientId();
         }
 
+        if (empty($this->client_id)) {
+            $env_clientid = EnvHelper::CLIENT_ID;
+            throw new SSEnvException("Oauth2 - Environment '{$env_clientid}' OR Configuration 'client_id' must be provided.");
+        }
+
         if (isset($config['client_secret'])) {
             $this->client_secret = $config['client_secret'];
         } else {
             $this->client_secret = EnvHelper::getClientSecret();
+        }
+
+        if (empty($this->client_secret)) {
+            $env_clientsecret = EnvHelper::CLIENT_SECRET;
+            throw new SSEnvException("Oauth2 - Environment '{$env_clientsecret}' OR Configuration 'client_secret' must be provided.");
         }
     }
 
@@ -94,5 +117,10 @@ class Oauth2
         }
 
         return new Response($response);
+    }
+
+    public function getOrganizationId()
+    {
+        return $this->organization_id;
     }
 }

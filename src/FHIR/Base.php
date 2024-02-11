@@ -25,7 +25,7 @@ class Base
                 $this->base_url = Endpoint::PROD_FHIR;
             } else {
                 $env = EnvHelper::ENV;
-                throw new SSEnvException("Environment {$env} value is invalid or not exist. Valid environment value is one of 'development', 'staging', or 'production'.");
+                throw new SSEnvException("FHIR Client - Environment '{$env}' OR Configuration 'environment' must be provided. Valid environment value is one of 'development', 'staging', or 'production'.");
             }
         }
 
