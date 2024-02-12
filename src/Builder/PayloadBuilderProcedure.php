@@ -9,7 +9,7 @@ use agumil\SatuSehatSDK\DataType\Period;
 use agumil\SatuSehatSDK\DataType\Range;
 use agumil\SatuSehatSDK\DataType\Reference;
 use agumil\SatuSehatSDK\Exception\SSDataTypeException;
-use agumil\SatuSehatSDK\HL7\EventStatus;
+use agumil\SatuSehatSDK\HL7\ProcedureStatus;
 use DateTime;
 use DateTimeZone;
 
@@ -52,7 +52,7 @@ class PayloadBuilderProcedure
 
     public function setStatus(string $status)
     {
-        $allowed_status = EventStatus::getCodes();
+        $allowed_status = ProcedureStatus::getCodes();
         if (!in_array($status, $allowed_status)) {
             $allowed_status = implode(',', $allowed_status);
             throw new SSDataTypeException("category must be one of {$allowed_status}");
@@ -161,7 +161,7 @@ class PayloadBuilderProcedure
 
     public function setCategory(CodeableConcept $category)
     {
-        $this->category[] = $category->toArray();
+        $this->category = $category->toArray();
 
         return $this;
     }
