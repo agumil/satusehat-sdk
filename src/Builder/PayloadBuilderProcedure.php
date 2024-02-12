@@ -41,6 +41,8 @@ class PayloadBuilderProcedure
 
     private array $note;
 
+    private array $category;
+
     public function addIdentifier(Identifier $identifier)
     {
         $this->identifier[] = $identifier->toArray();
@@ -157,6 +159,13 @@ class PayloadBuilderProcedure
         return $this;
     }
 
+    public function setCategory(CodeableConcept $category)
+    {
+        $this->category[] = $category->toArray();
+
+        return $this;
+    }
+
     public function build(): array
     {
         $data['resourceType'] = self::$resource_type;
@@ -210,6 +219,10 @@ class PayloadBuilderProcedure
 
         if (!empty($this->note)) {
             $data['note'] = $this->note;
+        }
+
+        if (!empty($this->category)) {
+            $data['category'] = $this->category;
         }
 
         return $data;
