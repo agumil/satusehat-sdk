@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\HL7;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class OrganizationType implements HL7Interface
+class OrganizationType implements TerminologyInterface
 {
     const VERSION = '5.4.0';
     const SYSTEM = 'http://terminology.hl7.org/CodeSystem/organization-type';

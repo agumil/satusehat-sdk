@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\HL7;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class AllergyIntoleranceCategory implements HL7Interface
+class AllergyIntoleranceCategory implements TerminologyInterface
 {
     const VERSION = '1.0.0';
     const SYSTEM = 'http://hl7.org/fhir/allergy-intolerance-category';

@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\HL7;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class RequestStatus implements HL7Interface
+class RequestStatus implements TerminologyInterface
 {
     const VERSION = '4.0.1';
     const SYSTEM = 'http://hl7.org/fhir/request-status';

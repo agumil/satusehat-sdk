@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\Terminology\SNOMEDCT;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class ProcedureCategory implements HL7Interface
+class ProcedureCategory implements TerminologyInterface
 {
     const SYSTEM = 'http://snomed.info/sct';
 
@@ -14,6 +14,7 @@ class ProcedureCategory implements HL7Interface
     const CODE_DIAGNOSTIC = '103693007';
     const CODE_CHIROPRACTIC = '46947000';
     const CODE_SOCIAL = '410606002';
+    const CODE_THERAPEUTIC = '277132007';
 
     public static function getCodes(): array
     {
@@ -25,6 +26,7 @@ class ProcedureCategory implements HL7Interface
             self::CODE_DIAGNOSTIC,
             self::CODE_CHIROPRACTIC,
             self::CODE_SOCIAL,
+            self::CODE_THERAPEUTIC,
         ];
     }
 
@@ -38,6 +40,7 @@ class ProcedureCategory implements HL7Interface
             self::CODE_DIAGNOSTIC => 'Diagnostic procedure',
             self::CODE_CHIROPRACTIC => 'Chiropractic manipulation',
             self::CODE_SOCIAL => 'Social service procedure',
+            self::CODE_THERAPEUTIC => 'Therapeutic procedure',
         ];
 
         return @$displays[$code];

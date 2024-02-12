@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\Terminology\KemKes;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class ServiceClassUpgrade implements HL7Interface
+class ServiceClassUpgrade implements TerminologyInterface
 {
     const VERSION = '4';
     const SYSTEM = 'http://terminology.kemkes.go.id/CodeSystem/locationUpgradeClass';

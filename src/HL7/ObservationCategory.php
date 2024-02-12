@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\HL7;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class ObservationCategory implements HL7Interface
+class ObservationCategory implements TerminologyInterface
 {
     const VERSION = '5.0.0';
     const SYSTEM = 'http://terminology.hl7.org/CodeSystem/observation-category';

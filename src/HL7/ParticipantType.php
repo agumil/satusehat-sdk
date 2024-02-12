@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\HL7;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class ParticipantType implements HL7Interface
+class ParticipantType implements TerminologyInterface
 {
     const VERSION = '1.0.0';
     const SYSTEM = 'http://terminology.hl7.org/CodeSystem/participant-type';

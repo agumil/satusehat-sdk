@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\Terminology\KemKes;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class EncounterStatus implements HL7Interface
+class EncounterStatus implements TerminologyInterface
 {
     const VERSION = '4';
     const SYSTEM = 'http://terminology.hl7.org/CodeSystem/v2-0203';

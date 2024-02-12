@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\HL7;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class DiagnosticReportStatus implements HL7Interface
+class DiagnosticReportStatus implements TerminologyInterface
 {
     const VERSION = '4.0.1';
     const SYSTEM = 'http://hl7.org/fhir/diagnostic-report-status';

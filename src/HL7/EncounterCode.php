@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\HL7;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class EncounterCode implements HL7Interface
+class EncounterCode implements TerminologyInterface
 {
     const VERSION = '9.0.0';
     const SYSTEM = 'http://terminology.hl7.org/CodeSystem/v3-ActCode';

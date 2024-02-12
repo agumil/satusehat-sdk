@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\HL7;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class AdmitSource implements HL7Interface
+class AdmitSource implements TerminologyInterface
 {
     const VERSION = '1.0.0';
     const SYSTEM = 'http://terminology.hl7.org/CodeSystem/admit-source';

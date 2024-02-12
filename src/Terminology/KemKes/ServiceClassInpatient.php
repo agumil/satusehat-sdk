@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\Terminology\KemKes;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class ServiceClassInpatient implements HL7Interface
+class ServiceClassInpatient implements TerminologyInterface
 {
     const VERSION = '4';
     const SYSTEM = 'http://terminology.kemkes.go.id/CodeSystem/locationServiceClass-Inpatient';

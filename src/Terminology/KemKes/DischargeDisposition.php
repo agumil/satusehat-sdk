@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\Terminology\KemKes;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class DischargeDisposition implements HL7Interface
+class DischargeDisposition implements TerminologyInterface
 {
     const VERSION = '1.0.0';
     const SYSTEM = 'http://terminology.kemkes.go.id/CodeSystem/discharge-disposition';

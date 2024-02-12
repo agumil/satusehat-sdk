@@ -1,9 +1,9 @@
 <?php
 namespace agumil\SatuSehatSDK\HL7;
 
-use agumil\SatuSehatSDK\Interface\HL7Interface;
+use agumil\SatuSehatSDK\Interface\TerminologyInterface;
 
-class ContactPointUse implements HL7Interface
+class ContactPointUse implements TerminologyInterface
 {
     const VERSION = '5.0.0';
     const SYSTEM = 'http://hl7.org/fhir/ValueSet/contact-point-use';
