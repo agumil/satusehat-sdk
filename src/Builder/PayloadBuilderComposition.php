@@ -3,6 +3,7 @@ namespace agumil\SatuSehatSDK\Builder;
 
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Identifier;
+use agumil\SatuSehatSDK\DataType\Narrative;
 use agumil\SatuSehatSDK\DataType\Reference;
 
 class PayloadBuilderComposition
@@ -22,6 +23,16 @@ class PayloadBuilderComposition
     private array $author;
 
     private string $title;
+
+    private array $category;
+
+    private array $encounter;
+
+    private string $confidentiality;
+
+    private array $custodian;
+
+    private array $section;
 
     public function addIdentifier(Identifier $identifier)
     {
@@ -72,6 +83,45 @@ class PayloadBuilderComposition
         return $this;
     }
 
+    public function addCategory(CodeableConcept $category)
+    {
+        $this->category[] = $category->toArray();
+
+        return $this;
+    }
+
+    public function setEncounter(Reference $encounter)
+    {
+        $this->encounter = $encounter->toArray();
+
+        return $this;
+    }
+
+    public function setConfidentiality(string $confidentiality)
+    {
+        $this->confidentiality = $confidentiality;
+
+        return $this;
+    }
+
+    public function setCustodian(Reference $custodian)
+    {
+        $this->custodian = $custodian->toArray();
+
+        return $this;
+    }
+
+    public function addSection(CodeableConcept $code, string $title, Narrative $text)
+    {
+        $data['code'] = $code->toArray();
+        $data['title'] = $title;
+        $data['text'] = $text->toArray();
+
+        $this->section[] = $data;
+
+        return $this;
+    }
+
     public function build(): array
     {
         $data['resourceType'] = self::$resource_type;
@@ -102,6 +152,26 @@ class PayloadBuilderComposition
 
         if (!empty($this->title)) {
             $data['title'] = $this->title;
+        }
+
+        if (!empty($this->category)) {
+            $data['category'] = $this->category;
+        }
+
+        if (!empty($this->encounter)) {
+            $data['encounter'] = $this->encounter;
+        }
+
+        if (!empty($this->confidentiality)) {
+            $data['confidentiality'] = $this->confidentiality;
+        }
+
+        if (!empty($this->custodian)) {
+            $data['custodian'] = $this->custodian;
+        }
+
+        if (!empty($this->section)) {
+            $data['section'] = $this->section;
         }
 
         return $data;

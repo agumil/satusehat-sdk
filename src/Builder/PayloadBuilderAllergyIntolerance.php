@@ -127,10 +127,7 @@ class PayloadBuilderAllergyIntolerance
         }
 
         if (isset($onset)) {
-            $isValid = ValidatorHelper::validDateTime($onset);
-            if (!$isValid) {
-                throw new SSDataTypeException('Parameter onset is unparseable by strtotime. Please provide a valid date.');
-            }
+            ValidatorHelper::dateTime('onset', $onset);
 
             $data['onset'] = $onset;
         }
