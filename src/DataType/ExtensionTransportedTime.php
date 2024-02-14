@@ -1,9 +1,7 @@
 <?php
 namespace agumil\SatuSehatSDK\DataType;
 
-use agumil\SatuSehatSDK\Exception\SSDataTypeException;
-use DateTime;
-use DateTimeZone;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 
 class ExtensionTransportedTime
 {
@@ -11,25 +9,13 @@ class ExtensionTransportedTime
 
     private string $dateTime;
 
-    private string $timezone;
-
-    public function __construct(string $dateTime, string $tz = 'Asia/Jakarta')
+    public function __construct(string $dateTime)
     {
-        $tmp = strtotime($dateTime);
-        if ($tmp === false) {
-            throw new SSDataTypeException('Parameter dateTime is unparseable by strtotime. Please provide a valid date.');
-        }
-
-        $this->dateTime = $dateTime;
-        $this->timezone = $tz;
+        $this->dateTime = ValidatorHelper::dateTime($dateTime);
     }
 
     public function toArray(): array
     {
-        $dateTime = (new DateTime($this->dateTime))
-            ->setTimezone(new DateTimeZone($this->timezone))
-            ->format('c');
-
-        return (new Extension(self::$url, $dateTime, 'DateTime'))->toArray();
+        return (new Extension(self::$url, $this->dateTime, 'DateTime'))->toArray();
     }
 }

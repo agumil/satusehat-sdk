@@ -127,9 +127,7 @@ class PayloadBuilderAllergyIntolerance
         }
 
         if (isset($onset)) {
-            ValidatorHelper::dateTime('onset', $onset);
-
-            $data['onset'] = $onset;
+            $data['onset'] = ValidatorHelper::dateTime('onset', $onset);
         }
 
         if (isset($severity)) {

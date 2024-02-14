@@ -5,8 +5,7 @@ use agumil\SatuSehatSDK\DataType\Annotation;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
-use agumil\SatuSehatSDK\Exception\SSDataTypeException;
-use DateTime;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 
 class PayloadBuilderCondition
 {
@@ -90,12 +89,7 @@ class PayloadBuilderCondition
 
     public function setRecordedDate(string $recordedDate)
     {
-        $epoch = strtotime($recordedDate);
-        if ($epoch === false) {
-            throw new SSDataTypeException('Parameter recordedDate is unparseable by strtotime. Please provide a valid date, dateTime, or time.');
-        }
-
-        $this->recorded_date = (new DateTime())->setTimestamp($epoch)->format('c');
+        $this->recorded_date = ValidatorHelper::dateTime($recordedDate);
 
         return $this;
     }

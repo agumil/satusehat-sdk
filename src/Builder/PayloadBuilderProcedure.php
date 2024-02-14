@@ -9,9 +9,8 @@ use agumil\SatuSehatSDK\DataType\Period;
 use agumil\SatuSehatSDK\DataType\Range;
 use agumil\SatuSehatSDK\DataType\Reference;
 use agumil\SatuSehatSDK\Exception\SSDataTypeException;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 use agumil\SatuSehatSDK\HL7\ProcedureStatus;
-use DateTime;
-use DateTimeZone;
 
 class PayloadBuilderProcedure
 {
@@ -109,11 +108,9 @@ class PayloadBuilderProcedure
         } elseif ($performed instanceof Range) {
             $data['performedRange'] = $performed->toArray();
         } elseif (is_string($performed) && strtotime($performed) !== false) {
-            $data['performedDateTime'] = (new DateTime($performed))->setTimezone(new DateTimeZone('Asia/Jakarta'))->format('c');
-        } elseif (is_string($performed)) {
-            $data['performedString'] = $performed;
+            $data['performedDateTime'] = ValidatorHelper::dateTime($performed);
         } else {
-            throw new SSDataTypeException('Value data type is not supported');
+            $data['performedString'] = $performed;
         }
 
         $this->performed = $data;

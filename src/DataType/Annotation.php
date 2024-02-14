@@ -2,7 +2,6 @@
 namespace agumil\SatuSehatSDK\DataType;
 
 use agumil\SatuSehatSDK\Helper\ValidatorHelper;
-use DateTime;
 
 class Annotation
 {
@@ -10,20 +9,25 @@ class Annotation
 
     private ?string $time;
 
-    private ?Reference $authorReference;
+    private ?array $author;
 
-    private ?string $authorString;
-
-    public function __construct(string $text, ?string $dateTime = null, ?Reference $authorReference = null, ?string $authorString = null)
+    public function __construct(string $text, ?string $dateTime = null, Reference | string $author = null)
     {
         if (!empty($dateTime)) {
-            ValidatorHelper::dateTime('dateTime', $dateTime);
+            $dateTime = ValidatorHelper::dateTime('dateTime', $dateTime);
+        }
+
+        if (!empty($author)) {
+            if ($author instanceof Reference) {
+                $this->author = ['authorReference' => $author->toArray()];
+            } else {
+                $this->author = ['authorString' => (string) $author];
+            }
+
         }
 
         $this->text = $text;
         $this->time = $dateTime;
-        $this->authorReference = $authorReference;
-        $this->authorString = $authorString;
     }
 
     public function toArray(): array
@@ -31,15 +35,11 @@ class Annotation
         $data['text'] = $this->text;
 
         if (isset($this->time)) {
-            $data['time'] = (new DateTime($this->time))->format('c');
+            $data['time'] = $this->time;
         }
 
-        if (isset($this->authorReference)) {
-            $data['authorReference'] = $this->authorReference->toArray();
-        }
-
-        if (isset($this->authorString)) {
-            $data['authorString'] = $this->authorString;
+        if (isset($this->author)) {
+            $data = array_merge($data, $this->author);
         }
 
         return $data;

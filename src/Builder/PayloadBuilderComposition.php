@@ -5,6 +5,7 @@ use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Narrative;
 use agumil\SatuSehatSDK\DataType\Reference;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 
 class PayloadBuilderComposition
 {
@@ -64,7 +65,7 @@ class PayloadBuilderComposition
 
     public function setDate(string $dateTime)
     {
-        $this->date = $dateTime;
+        $this->date = ValidatorHelper::dateTime($dateTime);
 
         return $this;
     }

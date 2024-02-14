@@ -2,8 +2,7 @@
 namespace agumil\SatuSehatSDK\DataType;
 
 use agumil\SatuSehatSDK\Exception\SSDataTypeException;
-use DateTime;
-use DateTimeZone;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 
 class Period
 {
@@ -11,22 +10,16 @@ class Period
 
     private ?string $end;
 
-    private string $timezone;
-
-    public function __construct(?string $startDateTime = null, ?string $endDateTime = null, string $tz = 'Asia/Jakarta')
+    public function __construct(?string $startDateTime = null, ?string $endDateTime = null)
     {
         if (!empty($startDateTime)) {
+            $startDateTime = ValidatorHelper::dateTime($startDateTime);
             $epochStart = strtotime($startDateTime);
-            if ($epochStart === false) {
-                throw new SSDataTypeException('Parameter startDateTime is unparseable by strtotime. Please provide a valid date.');
-            }
         }
 
         if (!empty($endDateTime)) {
+            $endDateTime = ValidatorHelper::dateTime($endDateTime);
             $epochEnd = strtotime($endDateTime);
-            if ($epochEnd === false) {
-                throw new SSDataTypeException('Parameter endDateTime is unparseable by strtotime. Please provide a valid date.');
-            }
         }
 
         if (!empty($startDateTime) && !empty($endDateTime)) {
@@ -37,22 +30,17 @@ class Period
 
         $this->start = $startDateTime;
         $this->end = $endDateTime;
-        $this->timezone = $tz;
     }
 
     public function toArray(): array
     {
         $data = [];
         if (!empty($this->start)) {
-            $data['start'] = (new DateTime($this->start))
-                ->setTimezone(new DateTimeZone($this->timezone))
-                ->format('c');
+            $data['start'] = $this->start;
         }
 
         if (!empty($this->end)) {
-            $data['end'] = (new DateTime($this->end))
-                ->setTimezone(new DateTimeZone($this->timezone))
-                ->format('c');
+            $data['end'] = $this->end;
         }
 
         return $data;

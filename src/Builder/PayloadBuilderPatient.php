@@ -9,8 +9,7 @@ use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
-use agumil\SatuSehatSDK\Exception\SSDataTypeException;
-use DateTime;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 
 class PayloadBuilderPatient
 {
@@ -64,14 +63,9 @@ class PayloadBuilderPatient
         return $this;
     }
 
-    public function setBirthDate($date)
+    public function setBirthDate(string $date)
     {
-        $epoch = strtotime($date);
-        if (!$epoch) {
-            throw new SSDataTypeException('Parameter date is unparseable by strtotime. Please provide a valid date.');
-        }
-
-        $this->birth_date = (new DateTime())->setTimestamp($epoch)->format('Y-m-d');
+        $this->birth_date = ValidatorHelper::date($date);
 
         return $this;
     }
@@ -85,7 +79,7 @@ class PayloadBuilderPatient
 
     public function setDeceasedDateTime(string $dateTime)
     {
-        $this->deceased_datetime = $dateTime;
+        $this->deceased_datetime = ValidatorHelper::dateTime($dateTime);
 
         return $this;
     }
@@ -158,7 +152,7 @@ class PayloadBuilderPatient
         foreach ($relationships as $relationship) {
             $data['relationship'][] = $relationship->toArray();
         }
-        
+
         $this->contact[] = $data;
 
         return $this;
