@@ -13,7 +13,7 @@ class Education20 implements TerminologyInterface
     const CODE_EDU_REHAB = '410082002';
     const CODE_EDU_PAIN = '712651001';
     const CODE_EDU_NUTRITION = '61310001';
-    const CODE_EDU_HAND_WASH = '698608004';
+    const CODE_EDU_WASH_HAND = '698608004';
     const CODE_EDU_EQUIPMENT = '362978005';
 
     public static function getCodes(): array
@@ -24,7 +24,7 @@ class Education20 implements TerminologyInterface
             self::CODE_EDU_REHAB,
             self::CODE_EDU_PAIN,
             self::CODE_EDU_NUTRITION,
-            self::CODE_EDU_HAND_WASH,
+            self::CODE_EDU_WASH_HAND,
             self::CODE_EDU_EQUIPMENT,
         ];
     }
@@ -37,7 +37,7 @@ class Education20 implements TerminologyInterface
             self::CODE_EDU_REHAB => 'Rehabilitation therapy education',
             self::CODE_EDU_PAIN => 'Education about pain',
             self::CODE_EDU_NUTRITION => 'Nutrition education',
-            self::CODE_EDU_HAND_WASH => 'Hand washing education',
+            self::CODE_EDU_WASH_HAND => 'Hand washing education',
             self::CODE_EDU_EQUIPMENT => 'Medical equipment or device education',
         ];
 
