@@ -13,6 +13,10 @@ class ValidatorHelper
             throw new SSDataTypeException('DateTime format is not recognized. The valid format is YYYY, YYYY-MM, YYYY-MM-DD or YYYY-MM-DDThh:mm:ss+zz:zz, e.g. 2018, 1973-06, 1905-08-23, 2015-02-07T13:28:17-05:00 or 2017-01-01T00:00:00.000Z');
         }
 
+        if ($val !== $match[0]) {
+            return (new DateHelper($val))->dateTimeISO8601();
+        }
+
         return $match[0];
     }
 
@@ -24,6 +28,10 @@ class ValidatorHelper
             throw new SSDataTypeException('Date format is not recognized. The valid format is YYYY, YYYY-MM, or YYYY-MM-DD, e.g. 2018, 1973-06, or 1905-08-23');
         }
 
+        if ($val !== $match[0]) {
+            return (new DateHelper($val))->dateISO8601();
+        }
+
         return $match[0];
     }
 
@@ -33,6 +41,10 @@ class ValidatorHelper
 
         if (empty($match)) {
             throw new SSDataTypeException('Time format is not recognized. The valid format is hh:mm:ss, e.g. 12:30:00.');
+        }
+
+        if ($val !== $match[0]) {
+            return (new DateHelper($val))->timeISO8601();
         }
 
         return $match[0];
