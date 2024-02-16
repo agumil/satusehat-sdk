@@ -6,8 +6,14 @@ use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
 use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
+use agumil\SatuSehatSDK\DataType\ExtensionLocationServiceClass;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
+use agumil\SatuSehatSDK\Terminology\HL7\LocationMode;
+use agumil\SatuSehatSDK\Terminology\HL7\LocationOperationalStatus;
+use agumil\SatuSehatSDK\Terminology\HL7\LocationPhysicalType;
+use agumil\SatuSehatSDK\Terminology\HL7\LocationStatus;
 
 class PayloadBuilderLocation
 {
@@ -45,8 +51,11 @@ class PayloadBuilderLocation
 
     private array $service_class;
 
+    private array $alias;
+
     public function setStatus(string $status)
     {
+        ValidatorHelper::in('status', $status, LocationStatus::getCodes());
         $this->status = $status;
 
         return $this;
@@ -68,28 +77,48 @@ class PayloadBuilderLocation
 
     public function setMode(string $mode)
     {
+        ValidatorHelper::in('mode', $mode, LocationMode::getCodes());
         $this->mode = $mode;
 
         return $this;
     }
 
-    public function setOperationalStatus(Coding $operationalStatus)
+    public function setOperationalStatus(Coding | string $operationalStatus)
     {
-        $this->operational_status = $operationalStatus->toArray();
+        if (!($operationalStatus instanceof Coding)) {
+            ValidatorHelper::in('operationalStatus', $operationalStatus, LocationOperationalStatus::getCodes());
+
+            $system = LocationOperationalStatus::SYSTEM;
+            $code = $operationalStatus;
+            $display = LocationOperationalStatus::getDisplayCode($operationalStatus);
+
+            $this->operational_status = (new Coding($system, $code, $display))->toArray();
+        } else {
+            $this->operational_status = $operationalStatus->toArray();
+        }
 
         return $this;
     }
 
-    public function addIdentifier(Identifier $identifier)
+    public function addIdentifier(Identifier | string $identifier)
     {
         $this->identifier[] = $identifier->toArray();
 
         return $this;
     }
 
-    public function setPhysicalType(CodeableConcept $physicalType)
+    public function setPhysicalType(CodeableConcept | string $physicalType)
     {
-        $this->physical_type = $physicalType->toArray();
+        if (!($physicalType instanceof CodeableConcept)) {
+            ValidatorHelper::in('physicalType', $physicalType, LocationPhysicalType::getCodes());
+
+            $system = LocationPhysicalType::SYSTEM;
+            $display = LocationPhysicalType::getDisplayCode($physicalType);
+
+            $this->physical_type = (new CodeableConcept($display, new Coding($system, $physicalType, $display)))->toArray();
+        } else {
+            $this->physical_type = $physicalType->toArray();
+        }
 
         return $this;
     }
@@ -108,24 +137,27 @@ class PayloadBuilderLocation
         return $this;
     }
 
-    public function addAddress(Address $address, ExtensionAdministrativeCode...$extensions)
+    public function setAddress(Address $address, ?ExtensionAdministrativeCode $administrativeCode = null)
     {
         $dataAddress = $address->toArray();
 
-        foreach ($extensions as $extension) {
-            $dataAddress['extension'][] = $extension->toArray();
+        if (isset($administrativeCode)) {
+            $dataAddress['extension'][] = $administrativeCode->toArray();
         }
 
-        $this->address[] = $dataAddress;
+        $this->address = $dataAddress;
 
         return $this;
     }
 
-    public function setPosition(float $longitude, float $latitude, float $altitude)
+    public function setPosition(float $longitude, float $latitude, ?float $altitude = null)
     {
         $this->position['longitude'] = $longitude;
         $this->position['latitude'] = $latitude;
-        $this->position['altitude'] = $altitude;
+
+        if (isset($altitude)) {
+            $this->position['altitude'] = $altitude;
+        }
 
         return $this;
     }
@@ -144,14 +176,32 @@ class PayloadBuilderLocation
         return $this;
     }
 
-    public function addHoursOfOperation(array $daysOfWeek, bool $allDay, string $openingTime, string $closingTime)
+    public function addHoursOfOperation(?array $daysOfWeek = null, ?bool $allDay = null, ?string $openingTime = null, ?string $closingTime = null)
     {
-        $this->hours_of_operation[] = [
-            'daysOfWeek' => $daysOfWeek,
-            'allDay' => $allDay,
-            'openingTime' => $openingTime,
-            'closingTime' => $closingTime,
-        ];
+        $data = [];
+
+        if (isset($daysOfWeek)) {
+            foreach ($daysOfWeek as $key => $dow) {
+                ValidatorHelper::in("daysOfWeek[$key]", $dow, ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']);
+            }
+            $data['daysOfWeek'] = $daysOfWeek;
+        }
+
+        if (isset($allDay)) {
+            $data['allDay'] = $allDay;
+        }
+
+        if (isset($openingTime)) {
+            ValidatorHelper::time($openingTime);
+            $data['openingTime'] = $openingTime;
+        }
+
+        if (isset($closingTime)) {
+            ValidatorHelper::time($closingTime);
+            $data['closingTime'] = $closingTime;
+        }
+
+        $this->hours_of_operation[] = $data;
 
         return $this;
     }
@@ -163,9 +213,16 @@ class PayloadBuilderLocation
         return $this;
     }
 
-    public function setServiceClass(CodeableConcept $serviceClass)
+    public function setServiceClass(ExtensionLocationServiceClass $locationServiceClass)
     {
-        $this->service_class = $serviceClass->toArray();
+        $this->service_class = $locationServiceClass->toArray();
+
+        return $this;
+    }
+
+    public function addAlias(string $alias)
+    {
+        $this->alias[] = $alias;
 
         return $this;
     }
@@ -234,11 +291,12 @@ class PayloadBuilderLocation
             $data['availabilityExceptions'] = $this->availability_exception;
         }
 
+        if (!empty($this->alias)) {
+            $data['alias'] = $this->alias;
+        }
+
         if (!empty($this->service_class)) {
-            $data['extension']['serviceClass'] = [
-                'url' => 'https://fhir.kemkes.go.id/r4/StructureDefinition/LocationServiceClass',
-                'extension' => $this->service_class,
-            ];
+            $data['extension'][] = $this->service_class;
         }
 
         return $data;
