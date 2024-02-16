@@ -1,6 +1,11 @@
 <?php
 namespace agumil\SatuSehatSDK\DataType;
 
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
+use agumil\SatuSehatSDK\Terminology\KemKes\ServiceClassInpatient;
+use agumil\SatuSehatSDK\Terminology\KemKes\ServiceClassOutpatient;
+use agumil\SatuSehatSDK\Terminology\KemKes\ServiceClassUpgrade;
+
 class ExtensionServiceClass
 {
     private static $url = 'https://fhir.kemkes.go.id/r4/StructureDefinition/ServiceClass';
@@ -9,10 +14,32 @@ class ExtensionServiceClass
 
     private ?CodeableConcept $upgrade_class_indicator;
 
-    public function __construct(?CodeableConcept $value = null, ?CodeableConcept $upgradeClassIndicator = null)
+    public function __construct(string $class, ?string $upgradeClass = null)
     {
-        $this->value = $value;
-        $this->upgrade_class_indicator = $upgradeClassIndicator;
+        $inpatient = ServiceClassInpatient::getCodes();
+        $outpatient = ServiceClassOutpatient::getCodes();
+        $availableClasses = array_merge($inpatient, $outpatient);
+
+        ValidatorHelper::in('class', $class, $availableClasses);
+
+        if (in_array($class, $inpatient)) {
+            $system1 = ServiceClassInpatient::SYSTEM;
+            $display1 = ServiceClassInpatient::getDisplayCode($class);
+        } else {
+            $system1 = ServiceClassOutpatient::SYSTEM;
+            $display1 = ServiceClassOutpatient::getDisplayCode($class);
+        }
+
+        $this->value = new CodeableConcept($display1, new Coding($system1, $class, $display1));
+
+        if (isset($upgradeClass)) {
+            ValidatorHelper::in('upgradeClass', $upgradeClass, ServiceClassUpgrade::getCodes());
+
+            $system2 = ServiceClassUpgrade::SYSTEM;
+            $display2 = ServiceClassUpgrade::getDisplayCode($upgradeClass);
+
+            $this->upgrade_class_indicator = new CodeableConcept($display2, new Coding($system2, $upgradeClass, $display2));
+        }
     }
 
     public function toArray(): array

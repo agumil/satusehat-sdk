@@ -1,6 +1,10 @@
 <?php
 namespace agumil\SatuSehatSDK\DataType;
 
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
+use agumil\SatuSehatSDK\Terminology\HL7\AddressType;
+use agumil\SatuSehatSDK\Terminology\HL7\AddressUse;
+
 class Address
 {
     private string $text;
@@ -25,6 +29,9 @@ class Address
 
     public function __construct(string $use, string $type, array $lines, ?string $district = null, ?string $city = null, ?string $state = null, ?string $postalCode = null, ?string $country = null, ?Period $period = null)
     {
+        ValidatorHelper::in('use', $use, AddressUse::getCodes());
+        ValidatorHelper::in('type', $type, AddressType::getCodes());
+
         $this->use = $use;
         $this->type = $type;
         $this->lines = $lines;

@@ -5,23 +5,16 @@ use agumil\SatuSehatSDK\Exception\SSDataTypeException;
 
 class Ratio
 {
-    protected Quantity|int $numerator;
+    protected SimpleQuantity|int $numerator;
 
-    protected Quantity|int $denominator;
+    protected SimpleQuantity|int $denominator;
 
-    public function __construct(Quantity | int $numerator = null, Quantity | int $denominator = null)
+    public function __construct(SimpleQuantity | int $numerator = null, SimpleQuantity | int $denominator = null)
     {
-        $bothEmpty = empty($numerator) && empty($denominator);
-        $bothExist = !empty($numerator) && !empty($denominator);
+        $bothEmpty = isset($numerator) && isset($denominator);
+        $bothExist = !isset($numerator) && !isset($denominator);
         if (!$bothEmpty && !$bothExist) {
-            throw new SSDataTypeException('Both numerator and denominator must be empty OR must be exist');
-        }
-
-        $numeratorDataType = gettype($numerator);
-        $denominatorDataType = gettype($denominator);
-
-        if ($numeratorDataType !== $denominatorDataType) {
-            throw new SSDataTypeException('Both numerator and denominator data type must be the same');
+            throw new SSDataTypeException('Numerator and denominator SHALL both be present, or both are absent. If both are absent, there SHALL be some extension present');
         }
 
         $this->numerator = $numerator;
@@ -32,13 +25,16 @@ class Ratio
     {
         $numerator = [];
         $denominator = [];
-        if ($this->numerator instanceof Quantity) {
+
+        if ($this->numerator instanceof SimpleQuantity) {
             $numerator = $this->numerator->toArray();
-            $denominator = $this->denominator->toArray();
+        } else {
+            $numerator = ['value' => (string) $this->numerator];
         }
 
-        if (is_integer($this->numerator)) {
-            $numerator = ['value' => (string) $this->numerator];
+        if ($this->denominator instanceof SimpleQuantity) {
+            $denominator = $this->denominator->toArray();
+        } else {
             $denominator = ['value' => (string) $this->denominator];
         }
 
