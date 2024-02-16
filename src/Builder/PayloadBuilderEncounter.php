@@ -147,7 +147,7 @@ class PayloadBuilderEncounter
         return $this;
     }
 
-    public function addParticipant(Reference $individual, ?Period $period = null, CodeableConcept...$type)
+    public function addParticipant(Reference $individual, ?Period $period = null, CodeableConcept ...$type)
     {
         $types = [];
         foreach ($type as $val) {
