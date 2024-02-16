@@ -8,8 +8,8 @@ use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
 use agumil\SatuSehatSDK\Exception\SSDataTypeException;
 use agumil\SatuSehatSDK\Helper\ValidatorHelper;
-use agumil\SatuSehatSDK\HL7\AllergyIntoleranceCategory;
-use agumil\SatuSehatSDK\HL7\AllergyIntoleranceType;
+use agumil\SatuSehatSDK\Terminology\HL7\AllergyIntoleranceCategory;
+use agumil\SatuSehatSDK\Terminology\HL7\AllergyIntoleranceType;
 
 class PayloadBuilderAllergyIntolerance
 {

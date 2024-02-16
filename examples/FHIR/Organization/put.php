@@ -8,14 +8,14 @@ use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
 use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
-use agumil\SatuSehatSDK\HL7\AddressType;
-use agumil\SatuSehatSDK\HL7\AddressUse;
-use agumil\SatuSehatSDK\HL7\ContactEntityType;
-use agumil\SatuSehatSDK\HL7\ContactPointSystem;
-use agumil\SatuSehatSDK\HL7\ContactPointUse;
-use agumil\SatuSehatSDK\HL7\NameUse;
-use agumil\SatuSehatSDK\HL7\OrganizationType;
 use agumil\SatuSehatSDK\SSClient;
+use agumil\SatuSehatSDK\Terminology\HL7\AddressType;
+use agumil\SatuSehatSDK\Terminology\HL7\AddressUse;
+use agumil\SatuSehatSDK\Terminology\HL7\ContactEntityType;
+use agumil\SatuSehatSDK\Terminology\HL7\ContactPointSystem;
+use agumil\SatuSehatSDK\Terminology\HL7\ContactPointUse;
+use agumil\SatuSehatSDK\Terminology\HL7\NameUse;
+use agumil\SatuSehatSDK\Terminology\HL7\OrganizationType;
 
 // init client
 $ssclient = new SSClient($oauth2, ['environment' => 'development']);

@@ -2,7 +2,7 @@
 namespace agumil\SatuSehatSDK\DataType;
 
 use agumil\SatuSehatSDK\Exception\SSDataTypeException;
-use agumil\SatuSehatSDK\HL7\QuantityComparator;
+use agumil\SatuSehatSDK\Terminology\HL7\QuantityComparator;
 
 class Quantity
 {

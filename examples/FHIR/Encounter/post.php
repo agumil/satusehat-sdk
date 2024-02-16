@@ -5,9 +5,9 @@ use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Period;
 use agumil\SatuSehatSDK\DataType\Reference;
-use agumil\SatuSehatSDK\HL7\EncounterCode;
-use agumil\SatuSehatSDK\HL7\IdentifierUse;
 use agumil\SatuSehatSDK\SSClient;
+use agumil\SatuSehatSDK\Terminology\HL7\EncounterCode;
+use agumil\SatuSehatSDK\Terminology\HL7\IdentifierUse;
 use agumil\SatuSehatSDK\Terminology\KemKes\EncounterStatus;
 use agumil\SatuSehatSDK\Terminology\KemKes\IdentifierSystem;
 

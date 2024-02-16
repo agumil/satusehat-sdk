@@ -10,7 +10,7 @@ use agumil\SatuSehatSDK\DataType\Range;
 use agumil\SatuSehatSDK\DataType\Reference;
 use agumil\SatuSehatSDK\Exception\SSDataTypeException;
 use agumil\SatuSehatSDK\Helper\ValidatorHelper;
-use agumil\SatuSehatSDK\HL7\ProcedureStatus;
+use agumil\SatuSehatSDK\Terminology\HL7\ProcedureStatus;
 
 class PayloadBuilderProcedure
 {
