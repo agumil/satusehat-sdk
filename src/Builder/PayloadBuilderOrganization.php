@@ -2,14 +2,17 @@
 namespace agumil\SatuSehatSDK\Builder;
 
 use agumil\SatuSehatSDK\DataType\Address;
-use agumil\SatuSehatSDK\DataType\AddressExtended;
 use agumil\SatuSehatSDK\DataType\BundleContactPoint;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
+use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
 use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
+use agumil\SatuSehatSDK\Terminology\HL7\ContactEntityType;
+use agumil\SatuSehatSDK\Terminology\HL7\OrganizationType;
 
 class PayloadBuilderOrganization
 {
@@ -37,7 +40,7 @@ class PayloadBuilderOrganization
 
     public function setActive(bool $isActive)
     {
-        $this->active = boolval($isActive);
+        $this->active = $isActive;
 
         return $this;
     }
@@ -63,9 +66,18 @@ class PayloadBuilderOrganization
         return $this;
     }
 
-    public function addType(CodeableConcept $type)
+    public function addType(CodeableConcept | string $type)
     {
-        $this->type[] = $type->toArray();
+        if (!($type instanceof CodeableConcept)) {
+            ValidatorHelper::in('type', $type, OrganizationType::getCodes());
+
+            $system = OrganizationType::SYSTEM;
+            $display = OrganizationType::getDisplayCode($type);
+
+            $this->type[] = (new CodeableConcept($display, new Coding($system, $type, $display)))->toArray();
+        } else {
+            $this->type[] = $type->toArray();
+        }
 
         return $this;
     }
@@ -77,11 +89,11 @@ class PayloadBuilderOrganization
         return $this;
     }
 
-    public function addAddress(Address $address, ExtensionAdministrativeCode ...$extensions)
+    public function addAddress(Address $address, ?ExtensionAdministrativeCode $extension = null)
     {
         $dataAddress = $address->toArray();
 
-        foreach ($extensions as $extension) {
+        if (isset($extension)) {
             $dataAddress['extension'][] = $extension->toArray();
         }
 
@@ -97,10 +109,19 @@ class PayloadBuilderOrganization
         return $this;
     }
 
-    public function addContact(?CodeableConcept $purpose = null, ?HumanName $name = null, ?BundleContactPoint $telecom = null, AddressExtended ...$addressExtendeds)
+    public function addContact(CodeableConcept | string $purpose = null, ?HumanName $name = null, ?BundleContactPoint $telecom = null, ?Address $address = null)
     {
         if (isset($purpose)) {
-            $data['purpose'] = $purpose->toArray();
+            if (!($purpose instanceof CodeableConcept)) {
+                ValidatorHelper::in('purpose', $purpose, ContactEntityType::getCodes());
+
+                $system = ContactEntityType::SYSTEM;
+                $display = ContactEntityType::getDisplayCode($purpose);
+
+                $data['purpose'] = (new CodeableConcept($display, new Coding($system, $purpose, $display)))->toArray();
+            } else {
+                $data['purpose'] = $purpose->toArray();
+            }
         }
 
         if (isset($name)) {
@@ -111,8 +132,8 @@ class PayloadBuilderOrganization
             $data['telecom'] = $telecom->toArray();
         }
 
-        foreach ($addressExtendeds as $addressExtended) {
-            $data['address'][] = $addressExtended->toArray();
+        if (isset($address)) {
+            $data['address'][] = $address->toArray();
         }
 
         $this->contact[] = $data;
