@@ -2,6 +2,8 @@
 namespace agumil\SatuSehatSDK\Request;
 
 use agumil\SatuSehatSDK\Auth\Oauth2;
+use agumil\SatuSehatSDK\Config\Connection;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
@@ -9,8 +11,20 @@ class HttpRequest
 {
     private $token;
 
-    public function __construct(Oauth2 $oauth2, array $config = [])
+    protected int $timeout = 60;
+
+    public function __construct(Oauth2 $oauth2, Connection | array $config = [])
     {
+        if (!($config instanceof Connection)) {
+            if (isset($config['timeout'])) {
+                ValidatorHelper::unsignedInt('timeout', $config['timeout']);
+
+                $this->timeout = (int) $config['timeout'];
+            }
+        } else {
+            $this->timeout = $config->getTimeout();
+        }
+
         $this->token = $oauth2->getToken();
     }
 
@@ -20,6 +34,7 @@ class HttpRequest
 
         $options['headers']['Content-Type'] = 'application/json';
         $options['headers']['Authorization'] = 'Bearer ' . $this->token;
+        $options['timeout'] = $this->timeout;
 
         if (!empty($payloads)) {
             $options['query'] = $payloads;
@@ -40,6 +55,7 @@ class HttpRequest
 
         $options['headers']['Content-Type'] = 'application/json';
         $options['headers']['Authorization'] = 'Bearer ' . $this->token;
+        $options['timeout'] = $this->timeout;
 
         if (!empty($payloads)) {
             if (is_string($payloads)) {
@@ -66,6 +82,7 @@ class HttpRequest
 
         $options['headers']['Content-Type'] = 'application/json';
         $options['headers']['Authorization'] = 'Bearer ' . $this->token;
+        $options['timeout'] = $this->timeout;
 
         if (!empty($payloads)) {
             if (is_string($payloads)) {
@@ -92,6 +109,7 @@ class HttpRequest
 
         $options['headers']['Content-Type'] = 'application/json';
         $options['headers']['Authorization'] = 'Bearer ' . $this->token;
+        $options['timeout'] = $this->timeout;
 
         if (!empty($payloads)) {
             if (is_string($payloads)) {
