@@ -1,7 +1,7 @@
 <?php
 namespace agumil\SatuSehatSDK\Auth;
 
-use agumil\SatuSehatSDK\Endpoint;
+use agumil\SatuSehatSDK\Config\Endpoint;
 use agumil\SatuSehatSDK\Exception\SSEnvException;
 use agumil\SatuSehatSDK\Exception\SSOauth2Exception;
 use agumil\SatuSehatSDK\Helper\EnvHelper;
@@ -28,19 +28,15 @@ class Oauth2
 
     public function __construct(array $config = [])
     {
-        if (isset($config['base_url'])) {
-            $this->base_url = $config['base_url'];
+        if (EnvHelper::isDevelopment() || $config['environment'] === 'development') {
+            $this->base_url = Endpoint::DEV_OAUTH2;
+        } elseif (EnvHelper::isStaging() || $config['environment'] === 'staging') {
+            $this->base_url = Endpoint::STG_OAUTH2;
+        } elseif (EnvHelper::isProduction() || $config['environment'] === 'production') {
+            $this->base_url = Endpoint::PROD_OAUTH2;
         } else {
-            if (EnvHelper::isDevelopment() || $config['environment'] === 'development') {
-                $this->base_url = Endpoint::DEV_OAUTH2;
-            } elseif (EnvHelper::isStaging() || $config['environment'] === 'staging') {
-                $this->base_url = Endpoint::STG_OAUTH2;
-            } elseif (EnvHelper::isProduction() || $config['environment'] === 'production') {
-                $this->base_url = Endpoint::PROD_OAUTH2;
-            } else {
-                $env = EnvHelper::ENV;
-                throw new SSEnvException("Oauth2 - Environment '{$env}' OR Configuration 'base_url' must be provided. Valid value is one of 'development', 'staging', or 'production'.");
-            }
+            $env = EnvHelper::ENV;
+            throw new SSEnvException("Oauth2 - Environment '{$env}' OR Configuration 'base_url' must be provided. Valid value is one of 'development', 'staging', or 'production'.");
         }
 
         if (isset($config['organization_id'])) {
