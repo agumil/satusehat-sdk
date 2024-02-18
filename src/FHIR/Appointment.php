@@ -16,7 +16,7 @@ class Appointment extends Base implements AppointmentInterface
     public function getAppointment(array $params = [])
     {
         $url = $this->base_url . 'Appointment';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class Appointment extends Base implements AppointmentInterface
     public function getAppointmentById(string $id)
     {
         $url = $this->base_url . "Appointment/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class Appointment extends Base implements AppointmentInterface
     public function createAppointment($params)
     {
         $url = $this->base_url . 'Appointment';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class Appointment extends Base implements AppointmentInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "Appointment/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

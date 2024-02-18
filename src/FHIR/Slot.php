@@ -16,7 +16,7 @@ class Slot extends Base implements SlotInterface
     public function getSlotById(string $id)
     {
         $url = $this->base_url . "Slot/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -24,7 +24,7 @@ class Slot extends Base implements SlotInterface
     public function createSlot($params)
     {
         $url = $this->base_url . 'Slot';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -34,7 +34,7 @@ class Slot extends Base implements SlotInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "Slot/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

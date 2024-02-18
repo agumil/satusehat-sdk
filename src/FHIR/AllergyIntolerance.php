@@ -16,7 +16,7 @@ class AllergyIntolerance extends Base implements AllergyIntoleranceInterface
     public function getAllergyIntolerance(array $params = [])
     {
         $url = $this->base_url . 'AllergyIntolerance';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class AllergyIntolerance extends Base implements AllergyIntoleranceInterface
     public function getAllergyIntoleranceById(string $id)
     {
         $url = $this->base_url . "AllergyIntolerance/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class AllergyIntolerance extends Base implements AllergyIntoleranceInterface
     public function createAllergyIntolerance($params)
     {
         $url = $this->base_url . 'AllergyIntolerance';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class AllergyIntolerance extends Base implements AllergyIntoleranceInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "AllergyIntolerance/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

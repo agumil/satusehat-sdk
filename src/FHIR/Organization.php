@@ -16,7 +16,7 @@ class Organization extends Base implements OrganizationInterface
     public function getOrganization(array $params = [])
     {
         $url = $this->base_url . 'Organization';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class Organization extends Base implements OrganizationInterface
     public function getOrganizationById(string $id)
     {
         $url = $this->base_url . "Organization/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class Organization extends Base implements OrganizationInterface
     public function createOrganization($params)
     {
         $url = $this->base_url . 'Organization';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class Organization extends Base implements OrganizationInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "Organization/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

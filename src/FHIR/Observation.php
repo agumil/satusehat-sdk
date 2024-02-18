@@ -16,7 +16,7 @@ class Observation extends Base implements ObservationInterface
     public function getObservation(array $params = [])
     {
         $url = $this->base_url . 'Observation';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class Observation extends Base implements ObservationInterface
     public function getObservationById(string $id)
     {
         $url = $this->base_url . "Observation/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class Observation extends Base implements ObservationInterface
     public function createObservation($params)
     {
         $url = $this->base_url . 'Observation';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class Observation extends Base implements ObservationInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "Observation/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

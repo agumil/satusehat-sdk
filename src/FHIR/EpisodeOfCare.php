@@ -16,7 +16,7 @@ class EpisodeOfCare extends Base implements EpisodeOfCareInterface
     public function getEpisodeOfCare(array $params = [])
     {
         $url = $this->base_url . 'EpisodeOfCare';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class EpisodeOfCare extends Base implements EpisodeOfCareInterface
     public function getEpisodeOfCareById(string $id)
     {
         $url = $this->base_url . "EpisodeOfCare/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class EpisodeOfCare extends Base implements EpisodeOfCareInterface
     public function createEpisodeOfCare($params)
     {
         $url = $this->base_url . 'EpisodeOfCare';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class EpisodeOfCare extends Base implements EpisodeOfCareInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "EpisodeOfCare/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

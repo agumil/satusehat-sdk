@@ -16,7 +16,7 @@ class ServiceRequest extends Base implements ServiceRequestInterface
     public function getServiceRequest(array $params = [])
     {
         $url = $this->base_url . 'ServiceRequest';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class ServiceRequest extends Base implements ServiceRequestInterface
     public function getServiceRequestById(string $id)
     {
         $url = $this->base_url . "ServiceRequest/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class ServiceRequest extends Base implements ServiceRequestInterface
     public function createServiceRequest($params)
     {
         $url = $this->base_url . 'ServiceRequest';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class ServiceRequest extends Base implements ServiceRequestInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "ServiceRequest/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

@@ -16,7 +16,7 @@ class Immunization extends Base implements ImmunizationInterface
     public function getImmunization(array $params = [])
     {
         $url = $this->base_url . 'Immunization';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class Immunization extends Base implements ImmunizationInterface
     public function getImmunizationById(string $id)
     {
         $url = $this->base_url . "Immunization/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class Immunization extends Base implements ImmunizationInterface
     public function createImmunization($params)
     {
         $url = $this->base_url . 'Immunization';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class Immunization extends Base implements ImmunizationInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "Immunization/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

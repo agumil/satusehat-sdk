@@ -16,7 +16,7 @@ class MedicationRequest extends Base implements MedicationRequestInterface
     public function getMedicationRequest(array $params = [])
     {
         $url = $this->base_url . 'MedicationRequest';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class MedicationRequest extends Base implements MedicationRequestInterface
     public function getMedicationRequestById(string $id)
     {
         $url = $this->base_url . "MedicationRequest/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class MedicationRequest extends Base implements MedicationRequestInterface
     public function createMedicationRequest($params)
     {
         $url = $this->base_url . 'MedicationRequest';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class MedicationRequest extends Base implements MedicationRequestInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "MedicationRequest/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

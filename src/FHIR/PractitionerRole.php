@@ -16,7 +16,7 @@ class PractitionerRole extends Base implements PractitionerRoleInterface
     public function getPractitionerRole(array $params = [])
     {
         $url = $this->base_url . 'PractitionerRole';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class PractitionerRole extends Base implements PractitionerRoleInterface
     public function getPractitionerRoleById(string $id)
     {
         $url = $this->base_url . "PractitionerRole/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class PractitionerRole extends Base implements PractitionerRoleInterface
     public function createPractitionerRole($params)
     {
         $url = $this->base_url . 'PractitionerRole';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class PractitionerRole extends Base implements PractitionerRoleInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "PractitionerRole/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

@@ -16,7 +16,7 @@ class AppointmentResponse extends Base implements AppointmentResponseInterface
     public function getAppointmentResponse(array $params = [])
     {
         $url = $this->base_url . 'AppointmentResponse';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class AppointmentResponse extends Base implements AppointmentResponseInterface
     public function getAppointmentResponseById(string $id)
     {
         $url = $this->base_url . "AppointmentResponse/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class AppointmentResponse extends Base implements AppointmentResponseInterface
     public function createAppointmentResponse($params)
     {
         $url = $this->base_url . 'AppointmentResponse';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class AppointmentResponse extends Base implements AppointmentResponseInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "AppointmentResponse/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

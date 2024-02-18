@@ -16,7 +16,7 @@ class ImagingStudy extends Base implements ImagingStudyInterface
     public function getImagingStudy(array $params = [])
     {
         $url = $this->base_url . 'ImagingStudy';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class ImagingStudy extends Base implements ImagingStudyInterface
     public function createImagingStudy($params)
     {
         $url = $this->base_url . 'ImagingStudy';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -34,7 +34,7 @@ class ImagingStudy extends Base implements ImagingStudyInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "ImagingStudy/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

@@ -16,7 +16,7 @@ class Location extends Base implements LocationInterface
     public function getLocation(array $params = [])
     {
         $url = $this->base_url . 'Location';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class Location extends Base implements LocationInterface
     public function getLocationById(string $id)
     {
         $url = $this->base_url . "Location/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class Location extends Base implements LocationInterface
     public function createLocation($params)
     {
         $url = $this->base_url . 'Location';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class Location extends Base implements LocationInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "Location/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

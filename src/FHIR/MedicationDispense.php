@@ -16,7 +16,7 @@ class MedicationDispense extends Base implements MedicationDispenseInterface
     public function getMedicationDispense(array $params = [])
     {
         $url = $this->base_url . 'MedicationDispense';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class MedicationDispense extends Base implements MedicationDispenseInterface
     public function getMedicationDispenseById(string $id)
     {
         $url = $this->base_url . "MedicationDispense/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class MedicationDispense extends Base implements MedicationDispenseInterface
     public function createMedicationDispense($params)
     {
         $url = $this->base_url . 'MedicationDispense';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class MedicationDispense extends Base implements MedicationDispenseInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "MedicationDispense/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

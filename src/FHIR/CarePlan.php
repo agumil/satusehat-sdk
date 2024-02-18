@@ -16,7 +16,7 @@ class CarePlan extends Base implements CarePlanInterface
     public function getCarePlan(array $params = [])
     {
         $url = $this->base_url . 'CarePlan';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class CarePlan extends Base implements CarePlanInterface
     public function getCarePlanById(string $id)
     {
         $url = $this->base_url . "CarePlan/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class CarePlan extends Base implements CarePlanInterface
     public function createCarePlan($params)
     {
         $url = $this->base_url . 'CarePlan';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class CarePlan extends Base implements CarePlanInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "CarePlan/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

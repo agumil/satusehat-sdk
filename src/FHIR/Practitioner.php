@@ -16,7 +16,7 @@ class Practitioner extends Base implements PractitionerInterface
     public function getPractitioner(array $params = [])
     {
         $url = $this->base_url . 'Practitioner';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class Practitioner extends Base implements PractitionerInterface
     public function getPractitionerById(string $id)
     {
         $url = $this->base_url . "Practitioner/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }

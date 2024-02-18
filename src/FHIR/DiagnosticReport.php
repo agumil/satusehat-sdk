@@ -16,7 +16,7 @@ class DiagnosticReport extends Base implements DiagnosticReportInterface
     public function getDiagnosticReport(array $params = [])
     {
         $url = $this->base_url . 'DiagnosticReport';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class DiagnosticReport extends Base implements DiagnosticReportInterface
     public function getDiagnosticReportById(string $id)
     {
         $url = $this->base_url . "DiagnosticReport/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class DiagnosticReport extends Base implements DiagnosticReportInterface
     public function createDiagnosticReport($params)
     {
         $url = $this->base_url . 'DiagnosticReport';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class DiagnosticReport extends Base implements DiagnosticReportInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "DiagnosticReport/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

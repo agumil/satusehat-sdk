@@ -16,7 +16,7 @@ class Condition extends Base implements ConditionInterface
     public function getCondition(array $params = [])
     {
         $url = $this->base_url . 'Condition';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class Condition extends Base implements ConditionInterface
     public function getConditionById(string $id)
     {
         $url = $this->base_url . "Condition/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class Condition extends Base implements ConditionInterface
     public function createCondition($params)
     {
         $url = $this->base_url . 'Condition';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class Condition extends Base implements ConditionInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "Condition/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

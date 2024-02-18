@@ -16,7 +16,7 @@ class HealthcareService extends Base implements HealthcareServiceInterface
     public function getHealthcareService(array $params = [])
     {
         $url = $this->base_url . 'HealthcareService';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class HealthcareService extends Base implements HealthcareServiceInterface
     public function getHealthcareServiceById(string $id)
     {
         $url = $this->base_url . "HealthcareService/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class HealthcareService extends Base implements HealthcareServiceInterface
     public function createHealthcareService($params)
     {
         $url = $this->base_url . 'HealthcareService';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class HealthcareService extends Base implements HealthcareServiceInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "HealthcareService/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

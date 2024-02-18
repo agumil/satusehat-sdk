@@ -16,7 +16,7 @@ class FamilyMemberHistory extends Base implements FamilyMemberHistoryInterface
     public function getFamilyMemberHistory(array $params = [])
     {
         $url = $this->base_url . 'FamilyMemberHistory';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class FamilyMemberHistory extends Base implements FamilyMemberHistoryInterface
     public function getFamilyMemberHistoryById(string $id)
     {
         $url = $this->base_url . "FamilyMemberHistory/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class FamilyMemberHistory extends Base implements FamilyMemberHistoryInterface
     public function createFamilyMemberHistory($params)
     {
         $url = $this->base_url . 'FamilyMemberHistory';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -42,7 +42,7 @@ class FamilyMemberHistory extends Base implements FamilyMemberHistoryInterface
         $params['id'] = $id;
 
         $url = $this->base_url . "FamilyMemberHistory/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }

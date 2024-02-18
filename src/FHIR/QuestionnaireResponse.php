@@ -16,7 +16,7 @@ class QuestionnaireResponse extends Base implements QuestionnaireResponseInterfa
     public function getQuestionnaireResponse(array $params = [])
     {
         $url = $this->base_url . 'QuestionnaireResponse';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url, $params));
     }
@@ -24,7 +24,7 @@ class QuestionnaireResponse extends Base implements QuestionnaireResponseInterfa
     public function getQuestionnaireResponseById(string $id)
     {
         $url = $this->base_url . "QuestionnaireResponse/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->get($url));
     }
@@ -32,7 +32,7 @@ class QuestionnaireResponse extends Base implements QuestionnaireResponseInterfa
     public function createQuestionnaireResponse($params)
     {
         $url = $this->base_url . 'QuestionnaireResponse';
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->post($url, $params));
     }
@@ -40,7 +40,7 @@ class QuestionnaireResponse extends Base implements QuestionnaireResponseInterfa
     public function updateQuestionnaireResponse(string $id, $params)
     {
         $url = $this->base_url . "QuestionnaireResponse/{$id}";
-        $httpRequest = new HttpRequest($this->oauth2);
+        $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
         return new Response($httpRequest->put($url, $params));
     }
