@@ -57,4 +57,20 @@ class ValidatorHelper
             throw new SSDataTypeException("{$var_name} must be one of {$stack_str}");
         }
     }
+
+    public static function unsignedInt(string $var_name, string | int $val)
+    {
+        preg_match('/[0]|([1-9][0-9]*)/', $val, $match);
+
+        if (empty($match) || $val != @$match[0]) {
+            throw new SSDataTypeException("{$var_name} is not valid. The valid value is any non-negative integer, e.g. 1, 2, 3, 2147483647, etc.");
+        }
+    }
+
+    public static function required(string $var_name, $val)
+    {
+        if (!isset($val) && empty($val) && $val != 0) {
+            throw new SSDataTypeException("{$var_name} is required.");
+        }
+    }
 }
