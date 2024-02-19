@@ -3,7 +3,7 @@
 use agumil\SatuSehatSDK\SSClient;
 
 // init client
-$ssclient = new SSClient($oauth2, ['environment' => 'development']);
+$ssclient = new SSClient($oauth2, ['environment' => 'staging']);
 
 // search by nik
 $params['identifier'] = 'https://fhir.kemkes.go.id/id/nik|7209061211900001';

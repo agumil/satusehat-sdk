@@ -22,7 +22,7 @@ use agumil\SatuSehatSDK\Terminology\KemKes\IdentifierSystem;
 use agumil\SatuSehatSDK\Terminology\KemKes\ServiceClassOutpatient;
 
 // init client
-$ssclient = new SSClient($oauth2, ['environment' => 'development']);
+$ssclient = new SSClient($oauth2, ['environment' => 'staging']);
 $builder = new PayloadBuilderLocation();
 
 // set identifier

@@ -11,7 +11,7 @@ use agumil\SatuSehatSDK\Terminology\HL7\IdentifierUse;
 use agumil\SatuSehatSDK\Terminology\HL7\NameUse;
 
 // init client
-$ssclient = new SSClient($oauth2, ['environment' => 'development']);
+$ssclient = new SSClient($oauth2, ['environment' => 'staging']);
 
 // patient data
 $identifier = new Identifier(

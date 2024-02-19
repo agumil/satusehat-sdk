@@ -12,7 +12,7 @@ use agumil\SatuSehatSDK\Terminology\KemKes\EncounterStatus;
 use agumil\SatuSehatSDK\Terminology\KemKes\IdentifierSystem;
 
 // init client
-$ssclient = new SSClient($oauth2, ['environment' => 'development']);
+$ssclient = new SSClient($oauth2, ['environment' => 'staging']);
 
 // encounter data
 $identifier = new Identifier(

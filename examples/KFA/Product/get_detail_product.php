@@ -3,7 +3,7 @@
 use agumil\SatuSehatSDK\SSClientKFA;
 
 $kfaclient_config = [
-    'environment' => 'development', // required
+    'environment' => 'staging', // required
     'timeout' => 30, // optional
 ];
 $kfaclient = new SSClientKFA($oauth2, $kfaclient_config);

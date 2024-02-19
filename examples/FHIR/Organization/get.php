@@ -3,7 +3,7 @@
 use agumil\SatuSehatSDK\SSClient;
 
 // init client
-$ssclient = new SSClient($oauth2, ['environment' => 'development']);
+$ssclient = new SSClient($oauth2, ['environment' => 'staging']);
 
 // get by name
 $params['name'] = 'Demo Organization';

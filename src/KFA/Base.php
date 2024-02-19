@@ -16,15 +16,13 @@ class Base
 
     public function __construct(Oauth2 $oauth2, array $config = [])
     {
-        if (EnvHelper::isDevelopment() || @$config['environment'] === 'development') {
-            $this->environment = 'development';
-        } elseif (EnvHelper::isStaging() || @$config['environment'] === 'staging') {
+        if (EnvHelper::isStaging() || @$config['environment'] === 'staging') {
             $this->environment = 'staging';
         } elseif (EnvHelper::isProduction() || @$config['environment'] === 'production') {
             $this->environment = 'production';
         } else {
             $env = EnvHelper::ENV;
-            throw new SSEnvException("KFA Client - Environment '{$env}' OR Parameter 'environment' must be provided. Valid environment value is one of 'development', 'staging', or 'production'.");
+            throw new SSEnvException("KFA Client - Environment '{$env}' OR Parameter 'environment' must be provided. Valid environment value is must be 'staging' or 'production'.");
         }
 
         $this->oauth2 = $oauth2;

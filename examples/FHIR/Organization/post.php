@@ -18,7 +18,7 @@ use agumil\SatuSehatSDK\Terminology\HL7\NameUse;
 use agumil\SatuSehatSDK\Terminology\KemKes\IdentifierSystem;
 
 // init client
-$ssclient = new SSClient($oauth2, ['environment' => 'development']);
+$ssclient = new SSClient($oauth2, ['environment' => 'staging']);
 $builder = new PayloadBuilderOrganization();
 
 // add identifier

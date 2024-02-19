@@ -3,7 +3,7 @@
 use agumil\SatuSehatSDK\SSClient;
 
 // init client
-$ssclient = new SSClient($oauth2, ['environment' => 'development']);
+$ssclient = new SSClient($oauth2, ['environment' => 'staging']);
 
 // get by subject
 $params['subject'] = 'P02478375538';

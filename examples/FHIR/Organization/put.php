@@ -18,7 +18,7 @@ use agumil\SatuSehatSDK\Terminology\HL7\NameUse;
 use agumil\SatuSehatSDK\Terminology\HL7\OrganizationType;
 
 // init client
-$ssclient = new SSClient($oauth2, ['environment' => 'development']);
+$ssclient = new SSClient($oauth2, ['environment' => 'staging']);
 
 // organization data
 $id = 'b152874d-20e1-424a-8c3f-e54c6fe09b94';

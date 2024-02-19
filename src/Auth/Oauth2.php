@@ -28,15 +28,13 @@ class Oauth2
 
     public function __construct(array $config = [])
     {
-        if (EnvHelper::isDevelopment() || $config['environment'] === 'development') {
-            $this->base_url = Endpoint::DEV_OAUTH2;
-        } elseif (EnvHelper::isStaging() || $config['environment'] === 'staging') {
+        if (EnvHelper::isStaging() || $config['environment'] === 'staging') {
             $this->base_url = Endpoint::STG_OAUTH2;
         } elseif (EnvHelper::isProduction() || $config['environment'] === 'production') {
             $this->base_url = Endpoint::PROD_OAUTH2;
         } else {
             $env = EnvHelper::ENV;
-            throw new SSEnvException("Oauth2 - Environment '{$env}' OR Configuration 'base_url' must be provided. Valid value is one of 'development', 'staging', or 'production'.");
+            throw new SSEnvException("Oauth2 - Environment '{$env}' OR Configuration 'base_url' must be provided. Valid environment value is must be 'staging' or 'production'.");
         }
 
         if (isset($config['organization_id'])) {
