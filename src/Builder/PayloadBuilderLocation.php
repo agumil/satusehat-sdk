@@ -10,6 +10,7 @@ use agumil\SatuSehatSDK\DataType\ExtensionLocationServiceClass;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
 use agumil\SatuSehatSDK\Helper\ValidatorHelper;
+use agumil\SatuSehatSDK\Terminology\HL7\DaysOfWeek;
 use agumil\SatuSehatSDK\Terminology\HL7\LocationMode;
 use agumil\SatuSehatSDK\Terminology\HL7\LocationOperationalStatus;
 use agumil\SatuSehatSDK\Terminology\HL7\LocationPhysicalType;
@@ -182,7 +183,7 @@ class PayloadBuilderLocation
 
         if (isset($daysOfWeek)) {
             foreach ($daysOfWeek as $key => $dow) {
-                ValidatorHelper::in("daysOfWeek[$key]", $dow, ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']);
+                ValidatorHelper::in("daysOfWeek[$key]", $dow, DaysOfWeek::getCodes());
             }
             $data['daysOfWeek'] = $daysOfWeek;
         }

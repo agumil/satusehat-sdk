@@ -63,7 +63,25 @@ class ValidatorHelper
         preg_match('/[0]|([1-9][0-9]*)/', $val, $match);
 
         if (empty($match) || $val != @$match[0]) {
-            throw new SSDataTypeException("{$var_name} is not valid. The valid value is any non-negative integer, e.g. 1, 2, 3, 2147483647, etc.");
+            throw new SSDataTypeException("{$var_name} is not valid. The valid value is any non-negative integer, e.g. 0, 1, 2, 3, 2147483647, etc.");
+        }
+    }
+
+    public static function positiveInt(string $var_name, string | int $val)
+    {
+        preg_match('/[1-9][0-9]*/', $val, $match);
+
+        if (empty($match) || $val != @$match[0]) {
+            throw new SSDataTypeException("{$var_name} is not valid. The valid value is any positive integer, e.g. 1, 2, 3, 2147483647, etc.");
+        }
+    }
+
+    public static function decimal(string $var_name, $val)
+    {
+        preg_match('/-?(0|[1-9][0-9]{0,17})(\.[0-9]{1,17})?([eE][+-]?[0-9]{1,9}})?/', $val, $match);
+
+        if (empty($match) || $val != @$match[0]) {
+            throw new SSDataTypeException("{$var_name} is not valid. Rational numbers must be a decimal representation. Decimals in FHIR cannot have more than 18 digits and a decimal point.");
         }
     }
 

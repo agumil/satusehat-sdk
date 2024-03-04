@@ -34,7 +34,7 @@ class Oauth2
             $this->base_url = Endpoint::PROD_OAUTH2;
         } else {
             $env = EnvHelper::ENV;
-            throw new SSEnvException("Oauth2 - Environment '{$env}' OR Configuration 'base_url' must be provided. Valid environment value is must be 'staging' or 'production'.");
+            throw new SSEnvException("Oauth2 - Environment '{$env}' OR Parameter 'environment' must be provided. Valid environment value is must be 'staging' or 'production'.");
         }
 
         if (isset($config['organization_id'])) {
