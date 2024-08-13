@@ -3,7 +3,7 @@ namespace agumil\SatuSehatSDK\DataType;
 
 use agumil\SatuSehatSDK\Exception\SSDataTypeException;
 
-class Ratio
+class RatioRange
 {
     protected SimpleQuantity|int $lowNumerator;
 
