@@ -69,6 +69,14 @@ class Oauth2
             $env_clientsecret = EnvHelper::CLIENT_SECRET;
             throw new SSEnvException("Oauth2 - Environment '{$env_clientsecret}' OR Configuration 'client_secret' must be provided.");
         }
+
+        if (isset($config['token'])) {
+            $this->token = $config['token'];
+        }
+
+        if (isset($config['token_expired_at'])) {
+            $this->token_expired_at = $config['token_expired_at'];
+        }
     }
 
     public function getContent()
