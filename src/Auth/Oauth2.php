@@ -29,6 +29,10 @@ class Oauth2
     // Opt-in
     private $auto_refresh_token = false;
 
+    private $event_listener = [
+        'token_changed' => []
+    ];
+
     public function __construct(array $config = [])
     {
         if (EnvHelper::isStaging() || $config['environment'] === 'staging') {
@@ -100,6 +104,9 @@ class Oauth2
         if ($now >= $this->token_expired_at) {
             $response = $this->generateToken();
             if ($response->getHttpStatus() !== $response::STATUS_2XX) {
+                $this->token = null;
+                $this->token_expired_at = 0;
+                $this->fireTokenChanged();
                 throw new SSOauth2Exception($response->getContent());
             }
 
@@ -110,9 +117,17 @@ class Oauth2
 
             $this->token = $accessToken;
             $this->token_expired_at = $expiredAt;
+            $this->fireTokenChanged();
         }
 
         return $this->token;
+    }
+
+    private function fireTokenChanged()
+    {
+        foreach ($this->event_listener['token_changed'] as $callback) {
+            $callback($this->token, $this->token_expired_at);
+        }
     }
 
     private function generateToken()
@@ -139,5 +154,10 @@ class Oauth2
     public function isTokenAutoRefresh()
     {
         return $this->auto_refresh_token;
+    }
+
+    public function addEventListener(string $type, callable $callback) {
+        $this->event_listener[$type][] = $callback;
+        return $this;
     }
 }
