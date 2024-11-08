@@ -38,7 +38,12 @@ class HttpRequest
         try {
             $response = $guzzle->request($method, $url, $options);
         } catch (ClientException $e) {
-            if ($e->getCode() === 401 && $this->oauth2->isTokenAutoRefresh() && $retry) {
+            if (
+                $e->getCode() === 401 &&
+                $this->oauth2->isTokenAutoRefresh() &&
+                $retry &&
+                json_decode($e->getResponse()->getBody()->getContents())->issue->code === 'invalid-access-token'
+            ) {
                 $this->token = $this->oauth2->getToken(true);
                 return $this->request($method, $url, $payloads, false);
             }
