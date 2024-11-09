@@ -33,8 +33,7 @@ class HttpRequest
     private function request(string $method, string $url, $payloads = null, bool $retry = true)
     {
         $guzzle = new Client();
-        $options = $this->initializeOptions($payloads);
-
+        $options = $this->initializeOptions($method, $payloads);
         try {
             $response = $guzzle->request($method, $url, $options);
         } catch (ClientException $e) {
@@ -53,21 +52,26 @@ class HttpRequest
         return $response;
     }
 
-    private function initializeOptions($payloads)
+    private function initializeOptions($method, $payloads)
     {
         $options['headers'] = [
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token,
         ];
         $options['timeout'] = $this->timeout;
-
         if (!empty($payloads)) {
-            if (is_string($payloads)) {
-                $options['body'] = $payloads;
-            } elseif (is_array($payloads)) {
-                $options['json'] = $payloads;
-            } else {
-                $options['body'] = json_encode($payloads);
+            try {
+                $options['json'] = $payloads->build();
+            } catch (\Throwable $th) {
+                if ($method === 'GET') {
+                    $options['query'] = $payloads;
+                } elseif (is_string($payloads)) {
+                    $options['body'] = $payloads;
+                } elseif (is_array($payloads)) {
+                    $options['json'] = $payloads;
+                } else {
+                    $options['body'] = json_encode($payloads);
+                }
             }
         }
 
