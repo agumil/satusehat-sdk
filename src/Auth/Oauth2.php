@@ -26,6 +26,13 @@ class Oauth2
 
     private $token_expired_at = 0;
 
+    // Opt-in
+    private $auto_refresh_token = false;
+
+    private $event_listener = [
+        'token_changed' => []
+    ];
+
     public function __construct(array $config = [])
     {
         if (EnvHelper::isStaging() || $config['environment'] === 'staging') {
@@ -69,6 +76,18 @@ class Oauth2
             $env_clientsecret = EnvHelper::CLIENT_SECRET;
             throw new SSEnvException("Oauth2 - Environment '{$env_clientsecret}' OR Configuration 'client_secret' must be provided.");
         }
+
+        if (isset($config['token'])) {
+            $this->token = $config['token'];
+        }
+
+        if (isset($config['token_expired_at'])) {
+            $this->token_expired_at = $config['token_expired_at'];
+        }
+
+        if (isset($config['auto_refresh_token'])) {
+            $this->auto_refresh_token = $config['auto_refresh_token'];
+        }
     }
 
     public function getContent()
@@ -76,12 +95,18 @@ class Oauth2
         return $this->generateToken()->getContent();
     }
 
-    public function getToken()
+    public function getToken(bool $refreshToken = false)
     {
         $now = (new DateTime('now'))->getTimestamp();
+        if ($refreshToken) {
+            $this->token_expired_at = 0;
+        }
         if ($now >= $this->token_expired_at) {
             $response = $this->generateToken();
             if ($response->getHttpStatus() !== $response::STATUS_2XX) {
+                $this->token = null;
+                $this->token_expired_at = 0;
+                $this->fireTokenChanged();
                 throw new SSOauth2Exception($response->getContent());
             }
 
@@ -92,9 +117,17 @@ class Oauth2
 
             $this->token = $accessToken;
             $this->token_expired_at = $expiredAt;
+            $this->fireTokenChanged();
         }
 
         return $this->token;
+    }
+
+    private function fireTokenChanged()
+    {
+        foreach ($this->event_listener['token_changed'] as $callback) {
+            $callback($this->token, $this->token_expired_at);
+        }
     }
 
     private function generateToken()
@@ -116,5 +149,15 @@ class Oauth2
     public function getOrganizationId()
     {
         return $this->organization_id;
+    }
+
+    public function isTokenAutoRefresh()
+    {
+        return $this->auto_refresh_token;
+    }
+
+    public function addEventListener(string $type, callable $callback) {
+        $this->event_listener[$type][] = $callback;
+        return $this;
     }
 }
