@@ -110,7 +110,7 @@ class PayloadBuilderPatient
         $dataAddress = $address->toArray();
 
         foreach ($extensions as $extension) {
-            $dataAddress['extension'][] = $extension;
+            $dataAddress['extension'][] = $extension->toArray();
         }
 
         $this->address[] = $dataAddress;
