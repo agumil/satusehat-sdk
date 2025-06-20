@@ -45,8 +45,8 @@ $ composer require vlucas/phpdotenv
 
 Supported ENV:
 ```bash
-# Choose one of the three options below
-SATUSEHAT_ENV=development|staging|production
+# Choose one of the two options below
+SATUSEHAT_ENV=staging|production
 SATUSEHAT_ORGANIZATION_ID=organization_id
 SATUSEHAT_CLIENT_ID=client_id
 SATUSEHAT_CLIENT_SECRET=client_secret

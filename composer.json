@@ -23,6 +23,7 @@
     "php": ">=7.4.0",
     "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5",
     "guzzlehttp/psr7": "^1.9.1 || ^2.4.5",
-    "guzzlehttp/promises": "^1.4.0 || ^2.0"
+    "guzzlehttp/promises": "^1.4.0 || ^2.0",
+    "vlucas/phpdotenv": "^5.6"
   }
 }
