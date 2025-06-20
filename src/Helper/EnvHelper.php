@@ -35,6 +35,11 @@ class EnvHelper
         return $env === 'production';
     }
 
+    public static function getEnvironment()
+    {
+        return @$_ENV[self::ENV];
+    }
+
     public static function getOrganizationId()
     {
         return @$_ENV[self::ORGANIZATION_ID];
