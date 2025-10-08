@@ -8,6 +8,7 @@ use agumil\SatuSehatSDK\DataType\Coding;
 use agumil\SatuSehatSDK\DataType\ContactPoint;
 use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
+use agumil\SatuSehatSDK\Helper\StrHelper;
 use agumil\SatuSehatSDK\SSClient;
 use agumil\SatuSehatSDK\Terminology\HL7\AddressType;
 use agumil\SatuSehatSDK\Terminology\HL7\AddressUse;
@@ -21,8 +22,8 @@ use agumil\SatuSehatSDK\Terminology\HL7\OrganizationType;
 $ssclient = new SSClient($oauth2, ['environment' => 'staging']);
 
 // organization data
-$id = 'b152874d-20e1-424a-8c3f-e54c6fe09b94';
-$name_organization = 'Tes Create Organization RW136';
+$id = '90a77a02-a142-466d-9d18-1cc08bb211d9';
+$name_organization = strtoupper(StrHelper::random(6, 'alpha')) . '-Demo Organization';
 $type_coding1 = new Coding(
     OrganizationType::SYSTEM,
     OrganizationType::CODE_HEALTHCARE_PROVIDER,
@@ -43,7 +44,7 @@ $contact2 = new ContactPoint(
 );
 
 $address1 = new Address(
-    AddressUse::CODE_TEMP,
+    AddressUse::CODE_HOME,
     AddressType::CODE_BOTH,
     ['Jl. Rajawali No 17'],
     'Umbulharjo',
@@ -52,7 +53,7 @@ $address1 = new Address(
     '55162',
     'ID'
 );
-$address1_extension = new ExtensionAdministrativeCode(99, 9901);
+$address1_extension = new ExtensionAdministrativeCode(32, 3212, 321212, 3212122013, 4, 3);
 
 $contact_purpose_coding1 = new Coding(
     ContactEntityType::SYSTEM,
@@ -75,7 +76,8 @@ $contact_telecom1 = new ContactPoint(
 
 // init builder
 $builder = new PayloadBuilderOrganization();
-$payload = $builder->setName($name_organization)
+$payload = $builder
+    ->setName($name_organization)
     ->addType($type)
     ->addTelecom($contact1)
     ->addTelecom($contact2)

@@ -1,11 +1,15 @@
 <?php require __DIR__ . '/../../Auth/oauth2.php';
 
 use agumil\SatuSehatSDK\Builder\PayloadBuilderPatient;
+use agumil\SatuSehatSDK\DataType\Address;
 use agumil\SatuSehatSDK\DataType\CodeableConcept;
 use agumil\SatuSehatSDK\DataType\Coding;
+use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\SSClient;
+use agumil\SatuSehatSDK\Terminology\HL7\AddressType;
+use agumil\SatuSehatSDK\Terminology\HL7\AddressUse;
 use agumil\SatuSehatSDK\Terminology\HL7\AdministrativeGender;
 use agumil\SatuSehatSDK\Terminology\HL7\IdentifierUse;
 use agumil\SatuSehatSDK\Terminology\HL7\NameUse;
@@ -36,18 +40,35 @@ $language1_coding = new Coding(
 );
 $language = new CodeableConcept('Indonesian', $language1_coding);
 
-// init payload builder organization
-$builder = new PayloadBuilderPatient();
-$payload = $builder->addIdentifier($identifier)
-    ->addName($name)
-    ->setActive($is_active)
-    ->setGender($gender)
-    ->setMultipleBirthBoolean($is_multiple_birth)
-    ->setMultipleBirthInteger(1)
-    ->setBirthDate($birth_date)
-    ->addCommunication($language, true)
-    ->build();
+$address1 = new Address(
+    AddressUse::CODE_HOME,
+    AddressType::CODE_BOTH,
+    ['Jl. Rajawali No 17'],
+    'Umbulharjo',
+    'Yogyakarta Kota',
+    'DIY',
+    '55162',
+    'ID'
+);
+$address1_extension = new ExtensionAdministrativeCode(32, 3212, 321212, 3212122013, 4, 3);
 
-$response = $ssclient->createPatient($payload);
+try {
+    // init payload builder organization
+    $builder = new PayloadBuilderPatient();
+    $payload = $builder->addIdentifier($identifier)
+        ->addName($name)
+        ->addAddress($address1, $address1_extension)
+        ->setActive($is_active)
+        ->setGender($gender)
+        ->setMultipleBirthBoolean($is_multiple_birth)
+        ->setMultipleBirthInteger(1)
+        ->setBirthDate($birth_date)
+        ->addCommunication($language, true)
+        ->build();
 
-var_dump($response->getContentAsObject());
+    $response = $ssclient->createPatient($payload);
+
+    var_dump($response->getContentAsObject());
+} catch (Exception $e) {
+    echo $e->getMessage();
+}

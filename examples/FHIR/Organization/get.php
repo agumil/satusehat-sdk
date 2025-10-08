@@ -12,7 +12,7 @@ $response = $ssclient->getOrganization($params);
 var_dump($response->getContentAsObject());
 
 // get by id
-$id = '67e1b275-4d22-43b4-b939-bc2d3e27b83d';
+$id = '90a77a02-a142-466d-9d18-1cc08bb211d9';
 $response = $ssclient->getOrganizationById($id);
 
 var_dump($response->getContentAsObject());
