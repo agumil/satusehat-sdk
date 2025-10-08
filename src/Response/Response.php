@@ -17,7 +17,7 @@ class Response
 
     const STATUS_UNKNOWN = 'Unknown Error';
 
-    private ResponseInterface $response;
+    private ResponseInterface|array $response;
 
     private int $http_code;
 
@@ -25,11 +25,17 @@ class Response
 
     private string $content;
 
-    public function __construct(ResponseInterface $response)
+    public function __construct(ResponseInterface | array $response)
     {
-        $this->response = $response;
-        $this->http_code = $response->getStatusCode();
-        $this->content = $response->getBody()->getContents();
+        if ($response instanceof ResponseInterface) {
+            $this->response = $response;
+            $this->http_code = $response->getStatusCode();
+            $this->content = $response->getBody()->getContents();
+        } else {
+            $this->response = $response;
+            $this->http_code = 000;
+            $this->content = json_encode($response);
+        }
 
         if ($this->http_code >= 100 && $this->http_code < 200) {
             $this->http_status = self::STATUS_1XX;
@@ -79,15 +85,19 @@ class Response
     public function getErrorMessages()
     {
         $content = $this->getContentAsArray();
-
         $messages = [];
-        foreach ($content['issue'] as $issue) {
-            $tmpMsg = strtoupper($issue['severity']) . '::' . $issue['details']['text'];
-            if (isset($issue['diagnostics'])) {
-                $tmpMsg = $tmpMsg . ' - ' . $issue['diagnostics'];
-            }
 
-            $messages[] = $tmpMsg;
+        if ($this->response instanceof ResponseInterface) {
+            foreach ($content['issue'] ?? [] as $issue) {
+                $tmpMsg = strtoupper($issue['severity']) . '::' . $issue['details']['text'];
+                if (isset($issue['diagnostics'])) {
+                    $tmpMsg = $tmpMsg . ' - ' . $issue['diagnostics'];
+                }
+
+                $messages[] = $tmpMsg;
+            }
+        } else {
+            $messages[] = $content['error'] ?? '';
         }
 
         return $messages;

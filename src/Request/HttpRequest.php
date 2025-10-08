@@ -6,6 +6,7 @@ use agumil\SatuSehatSDK\Config\Connection;
 use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 
 class HttpRequest
 {
@@ -36,6 +37,8 @@ class HttpRequest
         $options = $this->initializeOptions($method, $payloads);
         try {
             $response = $guzzle->request($method, $url, $options);
+        } catch (ConnectException $e) {
+            $response = $e->getHandlerContext();
         } catch (ClientException $e) {
             if (
                 $e->getCode() === 401 &&
@@ -46,6 +49,7 @@ class HttpRequest
                 $this->token = $this->oauth2->getToken(true);
                 return $this->request($method, $url, $payloads, false);
             }
+
             $response = $e->getResponse();
         }
 
