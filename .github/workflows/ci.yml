@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 8.0 is the floor declared in composer.json, so it is tested too.
+        # 8.5 is intentionally absent until setup-php ships a stable build.
+        php: ['8.0', '8.1', '8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, json, mbstring
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer.json
+        run: composer validate --strict --no-check-publish
+
+      - name: Install dependencies
+        run: |
+          # composer.lock pins PHPUnit 11, which requires PHP >= 8.2. The 8.0
+          # and 8.1 jobs therefore resolve their own set (PHPUnit 9.6 / 10.5),
+          # which is also why the test command differs for 8.0.
+          case "${{ matrix.php }}" in
+            8.0|8.1) composer update --prefer-dist --prefer-stable --no-interaction --no-progress ;;
+            *)       composer install --prefer-dist --no-interaction --no-progress ;;
+          esac
+
+      - name: Lint every PHP file
+        run: |
+          find src tests -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
+          echo "php -l passed for all files"
+
+      - name: Run tests
+        run: |
+          # PHPUnit 9.6 does not understand the current phpunit.xml schema, so
+          # PHP 8.0 runs the same tests without the config file. The assertions
+          # are identical either way.
+          if [ "${{ matrix.php }}" = "8.0" ]; then
+            composer test:compat
+          else
+            composer test
+          fi
+
+  lowest:
+    name: Lowest dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+          tools: composer:v2
+
+      # Proves the version floors in composer.json actually work. Without this
+      # job a floor can rot silently: everyone installs the newest release and
+      # nobody notices the minimum is broken.
+      - name: Install lowest allowed versions
+        run: composer update --prefer-lowest --prefer-stable --no-interaction --no-progress
+
+      - name: Run tests
+        run: composer test:compat
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      # Exits non-zero when any known advisory affects an installed package,
+      # so a vulnerable lock file cannot be merged quietly.
+      - name: Audit dependencies
+        run: composer audit

@@ -2,6 +2,7 @@
 namespace agumil\SatuSehatSDK\FHIR;
 
 use agumil\SatuSehatSDK\Auth\Oauth2;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 use agumil\SatuSehatSDK\Interface\FHIR\SpecimenInterface;
 use agumil\SatuSehatSDK\Request\HttpRequest;
 use agumil\SatuSehatSDK\Response\Response;
@@ -23,6 +24,7 @@ class Specimen extends Base implements SpecimenInterface
 
     public function getSpecimenById(string $id)
     {
+        $id = ValidatorHelper::resourceId('id', $id);
         $url = $this->base_url . "Specimen/{$id}";
         $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
@@ -39,6 +41,7 @@ class Specimen extends Base implements SpecimenInterface
 
     public function updateSpecimen(string $id, $params)
     {
+        $id = ValidatorHelper::resourceId('id', $id);
         $params['id'] = $id;
 
         $url = $this->base_url . "Specimen/{$id}";

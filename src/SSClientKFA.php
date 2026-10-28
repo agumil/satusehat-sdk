@@ -17,26 +17,6 @@ class SSClientKFA
         $this->config = $config;
     }
 
-    public function getListATC(array $params = [])
-    {
-        return (new Product($this->oauth2, $this->config))->getListATC($params);
-    }
-
-    public function getListProductByATC(array $params = [])
-    {
-        return (new Product($this->oauth2, $this->config))->getListProductByATC($params);
-    }
-
-    public function getListTag(array $params = [])
-    {
-        return (new Product($this->oauth2, $this->config))->getListTag($params);
-    }
-
-    public function getListProductByTag(array $params = [])
-    {
-        return (new Product($this->oauth2, $this->config))->getListProductByTag($params);
-    }
-
     public function getListProduct(array $params = [])
     {
         return (new Product($this->oauth2, $this->config))->getListProduct($params);
@@ -45,6 +25,16 @@ class SSClientKFA
     public function getProduct(array $params = [])
     {
         return (new Product($this->oauth2, $this->config))->getProduct($params);
+    }
+
+    public function getListAlkesProduct(array $params = [])
+    {
+        return (new Product($this->oauth2, $this->config))->getListAlkesProduct($params);
+    }
+
+    public function getListAlkesTemplate(array $params = [])
+    {
+        return (new Product($this->oauth2, $this->config))->getListAlkesTemplate($params);
     }
 
     public function getListPriceJKN(array $params = [])

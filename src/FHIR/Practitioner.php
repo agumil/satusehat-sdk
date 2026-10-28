@@ -2,6 +2,7 @@
 namespace agumil\SatuSehatSDK\FHIR;
 
 use agumil\SatuSehatSDK\Auth\Oauth2;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 use agumil\SatuSehatSDK\Interface\FHIR\PractitionerInterface;
 use agumil\SatuSehatSDK\Request\HttpRequest;
 use agumil\SatuSehatSDK\Response\Response;
@@ -23,6 +24,7 @@ class Practitioner extends Base implements PractitionerInterface
 
     public function getPractitionerById(string $id)
     {
+        $id = ValidatorHelper::resourceId('id', $id);
         $url = $this->base_url . "Practitioner/{$id}";
         $httpRequest = new HttpRequest($this->oauth2, $this->config);
 

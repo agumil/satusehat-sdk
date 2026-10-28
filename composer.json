@@ -11,6 +11,15 @@
       "src/_ssfunctions.php"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "agumil\\SatuSehatSDK\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "test:compat": "phpunit --no-configuration --bootstrap vendor/autoload.php --no-coverage tests"
+  },
   "authors": [
     {
       "name": "Agung Gumilang",
@@ -20,10 +29,14 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=7.4.0",
-    "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5",
-    "guzzlehttp/psr7": "^1.9.1 || ^2.4.5",
-    "guzzlehttp/promises": "^1.4.0 || ^2.0",
-    "vlucas/phpdotenv": "^5.6"
+    "php": ">=8.0",
+    "guzzlehttp/guzzle": "^7.16",
+    "guzzlehttp/psr7": "^2.13",
+    "guzzlehttp/promises": "^2.6",
+    "vlucas/phpdotenv": "^5.6",
+    "psr/log": "^1.1 || ^2.0 || ^3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.6 || ^10.5 || ^11.0"
   }
 }

@@ -2,6 +2,7 @@
 namespace agumil\SatuSehatSDK\FHIR;
 
 use agumil\SatuSehatSDK\Auth\Oauth2;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 use agumil\SatuSehatSDK\Interface\FHIR\QuestionnaireResponseInterface;
 use agumil\SatuSehatSDK\Request\HttpRequest;
 use agumil\SatuSehatSDK\Response\Response;
@@ -23,6 +24,7 @@ class QuestionnaireResponse extends Base implements QuestionnaireResponseInterfa
 
     public function getQuestionnaireResponseById(string $id)
     {
+        $id = ValidatorHelper::resourceId('id', $id);
         $url = $this->base_url . "QuestionnaireResponse/{$id}";
         $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
@@ -39,6 +41,7 @@ class QuestionnaireResponse extends Base implements QuestionnaireResponseInterfa
 
     public function updateQuestionnaireResponse(string $id, $params)
     {
+        $id = ValidatorHelper::resourceId('id', $id);
         $url = $this->base_url . "QuestionnaireResponse/{$id}";
         $httpRequest = new HttpRequest($this->oauth2, $this->config);
 

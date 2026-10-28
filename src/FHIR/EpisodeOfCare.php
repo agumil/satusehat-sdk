@@ -2,6 +2,7 @@
 namespace agumil\SatuSehatSDK\FHIR;
 
 use agumil\SatuSehatSDK\Auth\Oauth2;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 use agumil\SatuSehatSDK\Interface\FHIR\EpisodeOfCareInterface;
 use agumil\SatuSehatSDK\Request\HttpRequest;
 use agumil\SatuSehatSDK\Response\Response;
@@ -23,6 +24,7 @@ class EpisodeOfCare extends Base implements EpisodeOfCareInterface
 
     public function getEpisodeOfCareById(string $id)
     {
+        $id = ValidatorHelper::resourceId('id', $id);
         $url = $this->base_url . "EpisodeOfCare/{$id}";
         $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
@@ -39,6 +41,7 @@ class EpisodeOfCare extends Base implements EpisodeOfCareInterface
 
     public function updateEpisodeOfCare(string $id, $params)
     {
+        $id = ValidatorHelper::resourceId('id', $id);
         $params['id'] = $id;
 
         $url = $this->base_url . "EpisodeOfCare/{$id}";

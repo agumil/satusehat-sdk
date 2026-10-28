@@ -84,17 +84,57 @@ class Response
 
     public function getErrorMessages()
     {
+        // Respons sukses tidak punya pesan error. Tanpa guard ini, body 2xx
+        // (mis. {"message":"success"} pada KFA v3) akan dilaporkan sebagai
+        // error oleh pemanggil yang memeriksa daftar pesan.
+        if ($this->http_code >= 100 && $this->http_code < 400) {
+            return [];
+        }
+
         $content = $this->getContentAsArray();
         $messages = [];
 
         if ($this->response instanceof ResponseInterface) {
-            foreach ($content['issue'] ?? [] as $issue) {
-                $tmpMsg = strtoupper($issue['severity']) . '::' . $issue['details']['text'];
-                if (isset($issue['diagnostics'])) {
-                    $tmpMsg = $tmpMsg . ' - ' . $issue['diagnostics'];
+            // OperationOutcome tidak selalu lengkap: `details` dan `severity`
+            // boleh tidak ada. Tanpa guard, satu issue tanpa details memunculkan
+            // warning sekaligus menghilangkan pesan error-nya sendiri.
+            $issues = isset($content['issue']) && is_array($content['issue']) ? $content['issue'] : [];
+
+            foreach ($issues as $issue) {
+                if (!is_array($issue)) {
+                    continue;
+                }
+
+                $severity = strtoupper($issue['severity'] ?? 'unknown');
+                $text = $issue['details']['text'] ?? null;
+                $diagnostics = $issue['diagnostics'] ?? null;
+                $code = $issue['code'] ?? null;
+
+                $tmpMsg = $severity . '::' . ($text ?? $diagnostics ?? $code ?? 'Unknown error');
+
+                if ($text !== null && $diagnostics !== null) {
+                    $tmpMsg = $tmpMsg . ' - ' . $diagnostics;
                 }
 
                 $messages[] = $tmpMsg;
+            }
+
+            // Bukan OperationOutcome: layanan lain (mis. KFA) memakai bentuk
+            // {"message": "..."} atau {"error": true, "message": "..."}.
+            // Tanpa fallback ini pesan errornya hilang dan hanya tersisa kode.
+            if ($messages === [] && is_array($content)) {
+                foreach (['message', 'error'] as $key) {
+                    if (isset($content[$key]) && is_string($content[$key]) && trim($content[$key]) !== '') {
+                        $messages[] = trim($content[$key]);
+                        break;
+                    }
+                }
+            }
+
+            // 5xx dari gateway biasanya text/plain ("Gateway Timeout"), bukan
+            // OperationOutcome. Kembalikan apa adanya agar tidak tampak kosong.
+            if ($messages === [] && trim($this->content) !== '') {
+                $messages[] = trim($this->content);
             }
         } else {
             $messages[] = $content['error'] ?? '';

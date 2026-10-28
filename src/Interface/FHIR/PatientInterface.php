@@ -6,4 +6,5 @@ interface PatientInterface
     public function getPatient(array $params = []);
     public function getPatientById(string $id);
     public function createPatient($params);
+    public function updatePatient(string $id, array $params);
 }

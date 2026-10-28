@@ -9,13 +9,14 @@ use agumil\SatuSehatSDK\DataType\ExtensionAdministrativeCode;
 use agumil\SatuSehatSDK\DataType\HumanName;
 use agumil\SatuSehatSDK\DataType\Identifier;
 use agumil\SatuSehatSDK\DataType\Reference;
+use agumil\SatuSehatSDK\Exception\SSDataTypeException;
 use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 
 class PayloadBuilderPatient
 {
     private static $resource_type = 'Patient';
 
-    private bool $active;
+    private ?bool $active = null;
 
     private array $name;
 
@@ -23,7 +24,7 @@ class PayloadBuilderPatient
 
     private string $birth_date;
 
-    private bool $deceased_boolean;
+    private ?bool $deceased_boolean = null;
 
     private string $deceased_datetime;
 
@@ -35,9 +36,9 @@ class PayloadBuilderPatient
 
     private array $marital_status;
 
-    private bool $multiple_birth_boolean;
+    private ?bool $multiple_birth_boolean = null;
 
-    private int $multiple_birth_integer;
+    private ?int $multiple_birth_integer = null;
 
     private array $contact;
 
@@ -199,11 +200,16 @@ class PayloadBuilderPatient
     {
         $data['resourceType'] = self::$resource_type;
 
-        if (!empty($this->identifier)) {
-            $data['identifier'] = $this->identifier;
+        // Profil Patient SATUSEHAT mewajibkan identifier (NIK, NIK ibu, dst).
+        // Tanpa pemeriksaan ini payload tetap terkirim dan kegagalannya baru
+        // terlihat sebagai 400 dari server tanpa menyebut field yang kurang.
+        if (empty($this->identifier)) {
+            throw new SSDataTypeException('Patient identifier is required. Add at least one identifier, e.g. NIK, before building the payload.');
         }
 
-        if (!empty($this->active)) {
+        $data['identifier'] = $this->identifier;
+
+        if ($this->active !== null) {
             $data['active'] = $this->active;
         }
 
@@ -219,7 +225,7 @@ class PayloadBuilderPatient
             $data['birthDate'] = $this->birth_date;
         }
 
-        if (!empty($this->deceased_boolean)) {
+        if ($this->deceased_boolean !== null) {
             $data['deceasedBoolean'] = $this->deceased_boolean;
         }
 
@@ -239,11 +245,11 @@ class PayloadBuilderPatient
             $data['maritalStatus'] = $this->marital_status;
         }
 
-        if (!empty($this->multiple_birth_boolean)) {
+        if ($this->multiple_birth_boolean !== null) {
             $data['multipleBirthBoolean'] = $this->multiple_birth_boolean;
         }
 
-        if (!empty($this->multiple_birth_integer)) {
+        if ($this->multiple_birth_integer !== null) {
             $data['multipleBirthInteger'] = $this->multiple_birth_integer;
         }
 

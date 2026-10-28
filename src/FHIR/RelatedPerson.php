@@ -2,6 +2,7 @@
 namespace agumil\SatuSehatSDK\FHIR;
 
 use agumil\SatuSehatSDK\Auth\Oauth2;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 use agumil\SatuSehatSDK\Interface\FHIR\RelatedPersonInterface;
 use agumil\SatuSehatSDK\Request\HttpRequest;
 use agumil\SatuSehatSDK\Response\Response;
@@ -23,6 +24,7 @@ class RelatedPerson extends Base implements RelatedPersonInterface
 
     public function getRelatedPersonById(string $id)
     {
+        $id = ValidatorHelper::resourceId('id', $id);
         $url = $this->base_url . "RelatedPerson/{$id}";
         $httpRequest = new HttpRequest($this->oauth2, $this->config);
 
@@ -39,6 +41,7 @@ class RelatedPerson extends Base implements RelatedPersonInterface
 
     public function updateRelatedPerson(string $id, $params)
     {
+        $id = ValidatorHelper::resourceId('id', $id);
         $params['id'] = $id;
 
         $url = $this->base_url . "RelatedPerson/{$id}";

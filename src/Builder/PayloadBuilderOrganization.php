@@ -18,7 +18,7 @@ class PayloadBuilderOrganization
 {
     private static $resource_type = 'Organization';
 
-    private bool $active;
+    private ?bool $active = null;
 
     private string $name;
 
@@ -164,7 +164,7 @@ class PayloadBuilderOrganization
             $data['alias'] = $this->alias;
         }
 
-        if (!empty($this->active)) {
+        if ($this->active !== null) {
             $data['active'] = $this->active;
         }
 

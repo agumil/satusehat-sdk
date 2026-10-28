@@ -21,6 +21,13 @@ class EnvHelper
         ]);
     }
 
+    public static function isDevelopment(): bool
+    {
+        $env = @$_ENV[self::ENV];
+
+        return $env === 'development';
+    }
+
     public static function isStaging(): bool
     {
         $env = @$_ENV[self::ENV];

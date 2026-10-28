@@ -6,6 +6,7 @@ use agumil\SatuSehatSDK\Config\Endpoint;
 use agumil\SatuSehatSDK\Exception\SSEnvException;
 use agumil\SatuSehatSDK\Helper\EnvHelper;
 use agumil\SatuSehatSDK\Helper\StrHelper;
+use agumil\SatuSehatSDK\Helper\ValidatorHelper;
 use agumil\SatuSehatSDK\Interface\Consent\ConsentInterface;
 use agumil\SatuSehatSDK\Request\HttpRequest;
 use agumil\SatuSehatSDK\Response\Response;
@@ -20,13 +21,15 @@ class Consent implements ConsentInterface
 
     public function __construct(Oauth2 $oauth2, array $config = [])
     {
-        if (EnvHelper::isStaging() || @$config['environment'] === 'staging') {
+        if (EnvHelper::isDevelopment() || @$config['environment'] === 'development') {
+            $this->base_url = Endpoint::DEV_CONSENT;
+        } elseif (EnvHelper::isStaging() || @$config['environment'] === 'staging') {
             $this->base_url = Endpoint::STG_CONSENT;
         } elseif (EnvHelper::isProduction() || @$config['environment'] === 'production') {
             $this->base_url = Endpoint::PROD_CONSENT;
         } else {
-            $env = EnvHelper::ENV;
-            throw new SSEnvException("Environment {$env} value is invalid or not exist. Valid environment value is must be 'staging' or 'production'.");
+            $env = EnvHelper::getEnvironment();
+            throw new SSEnvException("Consent Client - Environment '{$env}' OR Parameter 'environment' must be provided. Valid environment value is must be 'development', 'staging' or 'production'.");
         }
 
         $this->oauth2 = $oauth2;
@@ -43,6 +46,7 @@ class Consent implements ConsentInterface
 
     public function updateConsentRaw(string $id, $params)
     {
+        $id = ValidatorHelper::resourceId('id', $id);
         $url = StrHelper::appendSlash($this->base_url) . "Consent/{$id}";
         $httpRequest = new HttpRequest($this->oauth2, $this->config);
 

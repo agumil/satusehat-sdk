@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         failOnWarning="true"
+         failOnRisky="true">
+    <php>
+        <!--
+            Guzzle 7.16 sudah bersih dari deprecation PHP 8.4, jadi
+            error_reporting dibiarkan default. Blok ini hanya menyediakan
+            tempat bila suatu saat perlu dinaikkan lagi.
+        -->
+        <ini name="error_reporting" value="E_ALL"/>
+    </php>
+    <testsuites>
+        <testsuite name="SatuSehat SDK">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+</phpunit>

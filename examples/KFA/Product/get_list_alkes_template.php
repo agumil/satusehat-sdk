@@ -8,12 +8,11 @@ $kfaclient_config = [
 ];
 $kfaclient = new SSClientKFA($oauth2, $kfaclient_config);
 
+// Body dikirim sebagai JSON apa adanya (KFA v3 - ALKES template).
 $params['page'] = 1;
 $params['size'] = 10;
-$params['level'] = 1;
-$params['tag_code'] = 'kanker';
-// $params['parent_code'] = 'kanker';
+$params['farmalkes_type'] = 'device';
 
-$response = $kfaclient->getListTag($params);
+$response = $kfaclient->getListAlkesTemplate($params);
 
 var_dump($response->getContentAsObject());

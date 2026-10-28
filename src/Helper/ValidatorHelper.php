@@ -58,6 +58,18 @@ class ValidatorHelper
         }
     }
 
+    /**
+     * NIK selalu 16 digit angka. Diperiksa sebagai string supaya NIK yang
+     * diawali nol (mis. 0171...) tidak kehilangan digitnya saat dikonversi
+     * menjadi integer.
+     */
+    public static function nik(string $var_name, $val)
+    {
+        if (!is_string($val) || !preg_match('/^[0-9]{16}$/', $val)) {
+            throw new SSDataTypeException("{$var_name} is not a valid NIK. The valid value is exactly 16 digits, e.g. 3171022809990001.");
+        }
+    }
+
     public static function unsignedInt(string $var_name, string | int $val)
     {
         preg_match('/[0]|([1-9][0-9]*)/', $val, $match);
@@ -87,8 +99,33 @@ class ValidatorHelper
 
     public static function required(string $var_name, $val)
     {
-        if (!isset($val) && empty($val) && $val != 0) {
+        // Sengaja tidak memakai empty(): empty() menganggap 0 dan false sebagai
+        // "kosong", padahal keduanya nilai yang sah untuk sebuah field FHIR.
+        // required() hanya memeriksa kehadiran nilai, bukan tipe atau isinya.
+        $is_missing = $val === null
+            || $val === ''
+            || (is_string($val) && trim($val) === '');
+
+        if ($is_missing) {
             throw new SSDataTypeException("{$var_name} is required.");
         }
+    }
+
+    /**
+     * Memvalidasi `id` resource FHIR sebelum dipakai menyusun URL.
+     *
+     * `id` diinterpolasi mentah ke path (`Patient/{$id}`), jadi nilai seperti
+     * `../../Consent/abc?x=1` dapat menggeser target request ke resource lain
+     * memakai Bearer token milik aplikasi. Pola di bawah mengikuti batasan id
+     * FHIR (1-64 karakter, huruf/angka/titik/strip) dan sengaja mewajibkan
+     * karakter pertama berupa huruf atau angka supaya `.` dan `..` ditolak.
+     */
+    public static function resourceId(string $var_name, string $id): string
+    {
+        if (!preg_match('/^[A-Za-z0-9][A-Za-z0-9\-\.]{0,63}$/', $id)) {
+            throw new SSDataTypeException("{$var_name} is not a valid resource id. The valid value is 1-64 characters of letters, digits, hyphen, or dot, starting with a letter or digit.");
+        }
+
+        return $id;
     }
 }

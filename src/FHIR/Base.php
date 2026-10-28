@@ -17,13 +17,15 @@ class Base
 
     protected function __construct(Oauth2 $oauth2, array $config = [])
     {
-        if (EnvHelper::isStaging() || @$config['environment'] === 'staging') {
+        if (EnvHelper::isDevelopment() || @$config['environment'] === 'development') {
+            $this->base_url = Endpoint::DEV_FHIR;
+        } elseif (EnvHelper::isStaging() || @$config['environment'] === 'staging') {
             $this->base_url = Endpoint::STG_FHIR;
         } elseif (EnvHelper::isProduction() || @$config['environment'] === 'production') {
             $this->base_url = Endpoint::PROD_FHIR;
         } else {
-            $env = EnvHelper::ENV;
-            throw new SSEnvException("FHIR Client - Environment '{$env}' OR Parameter 'environment' must be provided. Valid environment value is must be 'staging' or 'production'");
+            $env = EnvHelper::getEnvironment();
+            throw new SSEnvException("FHIR Client - Environment '{$env}' OR Parameter 'environment' must be provided. Valid environment value is must be 'development', 'staging' or 'production'");
         }
 
         $this->oauth2 = $oauth2;
